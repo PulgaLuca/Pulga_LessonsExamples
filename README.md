@@ -1,11 +1,11 @@
 # 🖥️ Educational Programming Examples — Computer Science
 
-**School:** ITT Blaise Pascal  
-**Class:** 3^I
-**Department:** Computer Science 
-**School Year:** 3^I
-**Professors:**  Luca Pulga, Francesco Tappi
-**Location:** Cesena, FC, Italy
+- **School:** ITT Blaise Pascal  
+- **Class:** 3^I
+- **Department:** Computer Science 
+- **School Year:** 3^I
+- **Professors:**  Luca Pulga, Francesco Tappi
+- **Location:** Cesena, FC, Italy
 
 ---
 
