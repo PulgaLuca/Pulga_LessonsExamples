@@ -6,7 +6,7 @@ namespace BlaisePascal.LessonsExamples.Domain.UnitTests
 {
     public class EnemyTests
     {
-        // ---------- Constructor Tests ----------
+        // Constructor Tests
         [Fact]
         public void EnemyConstructor_WhenValidValuesProvided_ShouldCreateEnemyCorrectly()
         {
@@ -70,8 +70,34 @@ namespace BlaisePascal.LessonsExamples.Domain.UnitTests
             Assert.Throws<ArgumentOutOfRangeException>(() => new Enemy(name, invalidHealth));
         }
 
-        // ---------- Rename Tests ----------
 
+        // Parameterized Rename Tests
+        [Theory]
+        [InlineData("Goblin", "Orc")]
+        [InlineData("Dragon", "Wyvern")]
+        public void EnemyRename_ValidName_ShouldUpdateName(string original, string newName)
+        {
+            Enemy enemy = new Enemy(original);
+
+            enemy.Rename(newName);
+
+            Assert.Equal(newName, enemy.Name);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("   ")]
+        public void EnemyRename_InvalidName_ShouldThrowArgumentException(string invalidName)
+        {
+            Enemy enemy = new Enemy("Goblin");
+
+            Assert.Throws<ArgumentException>(() => enemy.Rename(invalidName));
+        }
+
+
+
+        // Rename Tests
         [Fact]
         public void EnemyRename_WhenValidName_ShouldUpdateName()
         {
@@ -119,8 +145,7 @@ namespace BlaisePascal.LessonsExamples.Domain.UnitTests
             Assert.Throws<ArgumentException>(() => enemy.Rename(invalidName));
         }
 
-        // ---------- TakeDamage Tests ----------
-
+        // TakeDamage Tests
         [Fact]
         public void EnemyTakeDamage_WhenValidDamage_ShouldReduceHealth()
         {
@@ -161,7 +186,7 @@ namespace BlaisePascal.LessonsExamples.Domain.UnitTests
             Assert.False(enemy.IsAlive);
         }
 
-        // ---------- Heal Tests ----------
+        // Heal Tests
 
         [Fact]
         public void EnemyHeal_WhenValidAmount_ShouldIncreaseHealth()
@@ -202,7 +227,7 @@ namespace BlaisePascal.LessonsExamples.Domain.UnitTests
             Assert.Equal(100, enemy.Health);
         }
 
-        // ---------- IsAlive Tests ----------
+        // IsAlive Tests
 
         [Fact]
         public void EnemyIsAlive_WhenHealthIsZero_ShouldReturnFalse()
