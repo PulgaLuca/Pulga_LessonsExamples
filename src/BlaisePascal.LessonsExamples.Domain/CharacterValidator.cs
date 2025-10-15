@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.LessonsExamples.Domain
 {
-    public static class CharachterValidator
+    public static class CharacterValidator
     {
         // Constants
         public const int MaxHealth = 100;

@@ -21,10 +21,10 @@ namespace BlaisePascal.LessonsExamples.Domain
         /// <param name="description">An optional description of the enemy.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="name"/> is null or whitespace.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="health"/> is out of range.</exception>
-        public Enemy(string name, int health = CharachterValidator.MaxHealth, string description = "")
+        public Enemy(string name, int health = CharacterValidator.MaxHealth, string description = "")
         {
-            Name = CharachterValidator.ValidateName(name);
-            Health = CharachterValidator.ValidateHealth(health);
+            Name = CharacterValidator.ValidateName(name);
+            Health = CharacterValidator.ValidateHealth(health);
             Description = description ?? string.Empty;
         }
 
@@ -38,7 +38,7 @@ namespace BlaisePascal.LessonsExamples.Domain
             if (damage < 0)
                 throw new ArgumentException("Damage cannot be negative.", nameof(damage));
 
-            Health = Math.Max(Health - damage, CharachterValidator.MinHealth);
+            Health = Math.Max(Health - damage, CharacterValidator.MinHealth);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace BlaisePascal.LessonsExamples.Domain
             if (amount < 0)
                 throw new ArgumentException("Heal amount cannot be negative.", nameof(amount));
 
-            Health = Math.Min(Health + amount, CharachterValidator.MaxHealth);
+            Health = Math.Min(Health + amount, CharacterValidator.MaxHealth);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace BlaisePascal.LessonsExamples.Domain
         /// <exception cref="ArgumentException">Thrown if <paramref name="newName"/> is null or whitespace.</exception>
         public void Rename(string newName)
         {
-            Name = CharachterValidator.ValidateName(newName);
+            Name = CharacterValidator.ValidateName(newName);
         }
     }
 }
