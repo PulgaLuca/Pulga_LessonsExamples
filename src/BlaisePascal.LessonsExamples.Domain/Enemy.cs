@@ -7,10 +7,6 @@ namespace BlaisePascal.LessonsExamples.Domain
     /// </summary>
     public class Enemy
     {
-        // Constants
-        private const int MaxHealth = 100;
-        private const int MinHealth = 0;
-
         // Properties
         public string Name { get; private set; }
         public string Description { get; private set; }
@@ -25,10 +21,10 @@ namespace BlaisePascal.LessonsExamples.Domain
         /// <param name="description">An optional description of the enemy.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="name"/> is null or whitespace.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="health"/> is out of range.</exception>
-        public Enemy(string name, int health = MaxHealth, string description = "")
+        public Enemy(string name, int health = CharachterValidator.MaxHealth, string description = "")
         {
-            Name = ValidateName(name);
-            Health = ValidateHealth(health);
+            Name = CharachterValidator.ValidateName(name);
+            Health = CharachterValidator.ValidateHealth(health);
             Description = description ?? string.Empty;
         }
 
@@ -42,7 +38,7 @@ namespace BlaisePascal.LessonsExamples.Domain
             if (damage < 0)
                 throw new ArgumentException("Damage cannot be negative.", nameof(damage));
 
-            Health = Math.Max(Health - damage, MinHealth);
+            Health = Math.Max(Health - damage, CharachterValidator.MinHealth);
         }
 
         /// <summary>
@@ -55,7 +51,7 @@ namespace BlaisePascal.LessonsExamples.Domain
             if (amount < 0)
                 throw new ArgumentException("Heal amount cannot be negative.", nameof(amount));
 
-            Health = Math.Min(Health + amount, MaxHealth);
+            Health = Math.Min(Health + amount, CharachterValidator.MaxHealth);
         }
 
         /// <summary>
@@ -65,35 +61,7 @@ namespace BlaisePascal.LessonsExamples.Domain
         /// <exception cref="ArgumentException">Thrown if <paramref name="newName"/> is null or whitespace.</exception>
         public void Rename(string newName)
         {
-            Name = ValidateName(newName);
-        }
-
-        /// <summary>
-        /// Validates that the name is not null, empty, or whitespace.
-        /// </summary>
-        /// <param name="name">The name to validate.</param>
-        /// <returns>The validated and trimmed name.</returns>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="name"/> is invalid.</exception>
-        private static string ValidateName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Enemy name cannot be null or empty.", nameof(name));
-
-            return name.Trim();
-        }
-
-        /// <summary>
-        /// Validates that the health value is within the valid range.
-        /// </summary>
-        /// <param name="health">The health value to validate.</param>
-        /// <returns>The validated health value.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="health"/> is out of range.</exception>
-        private static int ValidateHealth(int health)
-        {
-            if (health < MinHealth || health > MaxHealth)
-                throw new ArgumentOutOfRangeException(nameof(health), $"Health must be between {MinHealth} and {MaxHealth}.");
-
-            return health;
+            Name = CharachterValidator.ValidateName(newName);
         }
     }
 }
