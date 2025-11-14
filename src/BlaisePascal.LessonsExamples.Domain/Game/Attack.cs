@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.LessonsExamples.Domain
 {
-    public class Attack
+    public class Student
     {
-        private int _attackMode;
-        private int _attackDamage;
-        private int _attackSpeed;
+        // Attributo
+        private int age;
+        private string name;
+
+
     }
 }
