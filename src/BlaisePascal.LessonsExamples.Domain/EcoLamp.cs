@@ -2,77 +2,102 @@
 
 namespace BlaisePascal.LessonsExamples.Domain
 {
-    /// <summary>
-    /// Lampada con modalità risparmio energetico (Eco Mode).
-    /// </summary>
     public class EcoLamp : AbstractLamp
     {
-        private const int EcoMinIntensity = 0;
-        private const int EcoDefaultIntensity = 30;
-        private const int EcoMaxIntensity = 70;
+        private const int EcoMin = 0;
+        private const int EcoDefault = 30;
+        private const int EcoMax = 70;
+        private const int DefaultAutoOffMinutes = 10;
+        private const int MinAutoOffMinutes = 1;
 
-        private DateTime? AutoOffAtUtc;
+        private DateTime? autoOffAtUtc;
 
-        public EcoLamp(string name)
-            : base(name)
-        {
-        }
+        public EcoLamp(string name) : base(name) { }
 
-        // --- Implementazione Metodi Astratti ---
+        public override int MinIntensity => EcoMin;
+        public override int MaxIntensity => EcoMax;
+        public override int DefaultIntensity => EcoDefault;
 
+        /// <summary>
+        /// Accende la lampada senza auto-off
+        /// </summary>
         public override void SwitchOn()
         {
-            if (Status == DeviceStatus.On)
-                throw new InvalidOperationException("La EcoLamp è già accesa.");
+            // SwitchOn(false);
+            SwitchOn(enableAutoOff: false);
+        }
 
-            Status = DeviceStatus.On;
-            Intensity = EcoDefaultIntensity;
-            LastModifiedAtUtc = DateTime.UtcNow;
+        /// <summary>
+        /// Accensione con scelta auto-off on/off
+        /// </summary>
+        public void SwitchOn(bool enableAutoOff)
+        {
+            base.SwitchOn();
 
-            // Pianifica lo spegnimento automatico dopo 10 minuti
-            AutoOffAtUtc = DateTime.UtcNow.AddMinutes(10);
+            autoOffAtUtc = enableAutoOff ? DateTime.UtcNow.AddMinutes(DefaultAutoOffMinutes) : null;
+        }
+
+        /// <summary>
+        /// Accende la lampada impostando un auto-off personalizzato
+        /// </summary>
+        public void SwitchOn(int autoOffMinutes)
+        {
+            if (autoOffMinutes < MinAutoOffMinutes)
+                throw new ArgumentOutOfRangeException($"Il tempo minimo di auto-spegnimento è {MinAutoOffMinutes} minuto.");
+
+            base.SwitchOn();
+            autoOffAtUtc = DateTime.UtcNow.AddMinutes(autoOffMinutes);
+        }
+
+        // Override per gestione intensità ed eventuale reset del timer
+        public override void SetIntensity(int value)
+        {
+            base.SetIntensity(value);
+
+            if (autoOffAtUtc.HasValue)
+                autoOffAtUtc = DateTime.UtcNow.AddMinutes(DefaultAutoOffMinutes);
         }
 
         public override void SwitchOff()
         {
-            if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("La EcoLamp è già spenta.");
-
-            Status = DeviceStatus.Off;
-            Intensity = EcoMinIntensity;
-            AutoOffAtUtc = null;
-            LastModifiedAtUtc = DateTime.UtcNow;
+            base.SwitchOff();
+            autoOffAtUtc = null;
         }
 
-        public override void SetIntensity(int value)
-        {
-            if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("Non è possibile impostare l’intensità di una lampada spenta.");
-
-            if (value < EcoMinIntensity || value > EcoMaxIntensity)
-                throw new ArgumentOutOfRangeException(nameof(value),
-                    $"L’intensità deve essere compresa tra {EcoMinIntensity} e {EcoMaxIntensity} in modalità Eco.");
-
-            Intensity = value;
-            LastModifiedAtUtc = DateTime.UtcNow;
-        }
-
-        // --- Funzionalità Specifica della EcoLamp ---
-
-        /// <summary>
-        /// Verifica se la lampada deve spegnersi automaticamente per risparmio energetico.
-        /// </summary>
         public void CheckAutoOff()
         {
-            if (Status == DeviceStatus.On && AutoOffAtUtc.HasValue && DateTime.UtcNow >= AutoOffAtUtc.Value)
-            {
+            if (Status == DeviceStatus.On && autoOffAtUtc.HasValue && DateTime.UtcNow >= autoOffAtUtc.Value)
                 SwitchOff();
-                AutoOffAtUtc = null;
-            }
         }
 
-        public int GetEcoMinIntensity() => EcoMinIntensity;
-        public int GetEcoMaxIntensity() => EcoMaxIntensity;
-        public int GetEcoDefaultIntensity() => EcoDefaultIntensity;
+        public override void Dimmer()
+        {
+            base.Dimmer();
+            ResetAutoOffIfNeeded();
+        }
+
+        public override void Dimmer(int amount)
+        {
+            base.Dimmer(amount);
+            ResetAutoOffIfNeeded();
+        }
+
+        public override void Brighten()
+        {
+            base.Brighten();
+            ResetAutoOffIfNeeded();
+        }
+
+        public override void Brighten(int amount)
+        {
+            base.Brighten(amount);
+            ResetAutoOffIfNeeded();
+        }
+
+        private void ResetAutoOffIfNeeded()
+        {
+            if (autoOffAtUtc.HasValue)
+                autoOffAtUtc = DateTime.UtcNow.AddMinutes(DefaultAutoOffMinutes);
+        }
     }
 }

@@ -1,74 +1,93 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlaisePascal.LessonsExamples.Domain
 {
-    /// <summary>
-    /// Classe astratta base per tutte le lampade del dominio.
-    /// Definisce i comportamenti comuni e i contratti che le sottoclassi devono rispettare.
-    /// </summary>
     public abstract class AbstractLamp
     {
-        public Guid Id { get; protected set; }
+        public Guid Id { get; }
         public string Name { get; protected set; }
-
-        public int Intensity { get; protected set; }
         public DeviceStatus Status { get; protected set; }
+        public int Intensity { get; protected set; }
         public DateTime CreatedAtUtc { get; protected set; }
         public DateTime LastModifiedAtUtc { get; protected set; }
+
+        // Proprietà definite dalle classi derivate
+        public abstract int MinIntensity { get; }
+        public abstract int MaxIntensity { get; }
+        public abstract int DefaultIntensity { get; }
+
+        private const int DefaultStepAmount = 10;
 
         protected AbstractLamp(string name)
         {
             Id = Guid.NewGuid();
             Name = name;
-            Intensity = 0;
-            Status = DeviceStatus.Off;
             CreatedAtUtc = DateTime.UtcNow;
-            LastModifiedAtUtc = DateTime.UtcNow;
         }
-
-        // --- Metodi astratti (devono essere implementati dalle sottoclassi che specializzano) ---
-        public abstract void SwitchOn();
-        public abstract void SwitchOff();
-        public abstract void SetIntensity(int value);
-
-        // --- Metodi concreti comuni ---
-        public void Toggle()
+        
+        // Metodi comuni e virtual modificabili
+        public virtual void SwitchOn()
         {
             if (Status == DeviceStatus.On)
-                SwitchOff();
-            else
-                SwitchOn();
+                throw new InvalidOperationException($"{Name} è già accesa.");
 
+            Status = DeviceStatus.On;
+            Intensity = DefaultIntensity;
             LastModifiedAtUtc = DateTime.UtcNow;
         }
 
-        public void Dimmer(int amount)
+        public virtual void SwitchOff()
         {
             if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("Impossibile regolare l’intensità: la lampada è spenta.");
+                throw new InvalidOperationException($"{Name} è già spenta.");
 
-            int newValue = Math.Max(0, Intensity - amount);
-            if (newValue == Intensity)
-                throw new InvalidOperationException("L’intensità non può essere ulteriormente diminuita.");
-
-            Intensity = newValue;
+            Status = DeviceStatus.Off;
+            Intensity = MinIntensity;
             LastModifiedAtUtc = DateTime.UtcNow;
         }
 
-        public void Brighten(int amount)
+        public virtual void SetIntensity(int value)
         {
             if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("Impossibile regolare l’intensità: la lampada è spenta.");
+                throw new InvalidOperationException("Non è possibile cambiare intensità quando la lampada è spenta.");
 
-            int newValue = Math.Min(100, Intensity + amount);
-            if (newValue == Intensity)
-                throw new InvalidOperationException("L’intensità non può essere ulteriormente aumentata.");
+            value = Math.Clamp(value, MinIntensity, MaxIntensity);
 
-            Intensity = newValue;
+            Intensity = value;
+            LastModifiedAtUtc = DateTime.UtcNow;
+        }
+
+        public virtual void Dimmer()
+        {
+            Dimmer(DefaultStepAmount);
+        }
+
+        public virtual void Dimmer(int amount)
+        {
+            if (Status == DeviceStatus.Off)
+                throw new InvalidOperationException("Non è possibile diminuire l'intensità di una lampada spenta.");
+
+            if (amount < 1)
+                throw new ArgumentOutOfRangeException(nameof(amount), "La variazione deve essere almeno 1.");
+
+            Intensity = Math.Max(MinIntensity, Intensity - amount);
+            LastModifiedAtUtc = DateTime.UtcNow;
+        }
+
+        public virtual void Brighten()
+        {
+            Brighten(DefaultStepAmount);
+        }
+
+        public virtual void Brighten(int amount)
+        {
+            if (Status == DeviceStatus.Off)
+                throw new InvalidOperationException("Non è possibile aumentare l'intensità di una lampada spenta.");
+
+            if (amount < 1)
+                throw new ArgumentOutOfRangeException(nameof(amount), "La variazione deve essere almeno 1.");
+
+            Intensity = Math.Min(MaxIntensity, Intensity + amount);
             LastModifiedAtUtc = DateTime.UtcNow;
         }
     }

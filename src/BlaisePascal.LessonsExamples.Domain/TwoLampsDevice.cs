@@ -4,8 +4,13 @@ namespace BlaisePascal.LessonsExamples.Domain
 {
     public class TwoLampsDevice
     {
-        public AbstractLamp Lamp1 { get; private set; }
-        public AbstractLamp Lamp2 { get; private set; }
+        private const int Lamp1Number = 1;
+        private const int Lamp2Number = 2;
+
+        private const int DefaultStepAmount = 10;
+
+        public AbstractLamp Lamp1 { get; }
+        public AbstractLamp Lamp2 { get; }
 
         public TwoLampsDevice(AbstractLamp lamp1, AbstractLamp lamp2)
         {
@@ -13,7 +18,7 @@ namespace BlaisePascal.LessonsExamples.Domain
             Lamp2 = lamp2 ?? throw new ArgumentNullException(nameof(lamp2));
         }
 
-        // --- SWITCH ON ---
+        // ------- Switch On ------- 
         public void SwitchOn()
         {
             Lamp1.SwitchOn();
@@ -25,7 +30,12 @@ namespace BlaisePascal.LessonsExamples.Domain
             GetLamp(lampNumber).SwitchOn();
         }
 
-        // --- SWITCH OFF ---
+        public void SwitchOn(Guid lampId)
+        {
+            GetLamp(lampId).SwitchOn();
+        }
+
+        // ------- Switch Off -------
         public void SwitchOff()
         {
             Lamp1.SwitchOff();
@@ -37,73 +47,91 @@ namespace BlaisePascal.LessonsExamples.Domain
             GetLamp(lampNumber).SwitchOff();
         }
 
-        // --- TOGGLE ---
-        public void Toggle()
+        public void SwitchOff(Guid lampId)
         {
-            Lamp1.Toggle();
-            Lamp2.Toggle();
+            GetLamp(lampId).SwitchOff();
         }
 
-        public void Toggle(int lampNumber)
+        // ------- Set Intensity -------
+        public void SetIntensity(int newIntensity)
         {
-            GetLamp(lampNumber).Toggle();
+            Lamp1.SetIntensity(newIntensity);
+            Lamp2.SetIntensity(newIntensity);
         }
 
-        // --- SET INTENSITY ---
-        public void SetIntensity(int value)
+        public void SetIntensity(int lampNumber, int newIntensity)
         {
-            Lamp1.SetIntensity(value);
-            Lamp2.SetIntensity(value);
+            GetLamp(lampNumber).SetIntensity(newIntensity);
         }
 
-        public void SetIntensity(int lampNumber, int value)
+        public void SetIntensity(Guid lampId, int newIntensity)
         {
-            GetLamp(lampNumber).SetIntensity(value);
+            GetLamp(lampId).SetIntensity(newIntensity);
         }
 
-        // --- DIMMER ---
-        public void Dimmer(int amount = 10)
+        // ------- Dimmer -------
+        public void Dimmer(int amount = DefaultStepAmount)
         {
             Lamp1.Dimmer(amount);
             Lamp2.Dimmer(amount);
         }
 
-        public void Dimmer(int lampNumber, int amount = 10)
+        public void Dimmer(int lampNumber, int amount)
         {
             GetLamp(lampNumber).Dimmer(amount);
         }
 
-        // --- BRIGHTEN ---
-        public void Brighten(int amount = 10)
+        public void Dimmer(Guid lampId, int amount)
+        {
+            GetLamp(lampId).Dimmer(amount);
+        }
+
+        // ------- Brighten -------
+        public void Brighten(int amount = DefaultStepAmount)
         {
             Lamp1.Brighten(amount);
             Lamp2.Brighten(amount);
         }
 
-        public void Brighten(int lampNumber, int amount = 10)
+        public void Brighten(int lampNumber, int amount)
         {
             GetLamp(lampNumber).Brighten(amount);
         }
 
-        // --- AUTO OFF CHECK ---
+        public void Brighten(Guid lampId, int amount)
+        {
+            GetLamp(lampId).Brighten(amount);
+        }
+
         public void CheckAutoOff()
         {
-            if (Lamp1 is EcoLamp eco1)
+            if (Lamp1 is EcoLamp eco1) 
                 eco1.CheckAutoOff();
-
-            if (Lamp2 is EcoLamp eco2)
+            if (Lamp2 is EcoLamp eco2) 
                 eco2.CheckAutoOff();
         }
 
-        // --- PRIVATE UTILITIES ---
-        private AbstractLamp GetLamp(int number)
+        // ------- Get Lamp Utilities methods -------
+        private AbstractLamp GetLamp(int lampNumber)
         {
-            return number switch
+            switch (lampNumber)
             {
-                1 => Lamp1,
-                2 => Lamp2,
-                _ => throw new ArgumentOutOfRangeException(nameof(number), "Solo 1 o 2 sono ammessi.")
-            };
+                case Lamp1Number:
+                    return Lamp1;
+                case Lamp2Number:
+                    return Lamp2;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(lampNumber), "Numero lampada non valido.");
+            }
+        }
+
+        private AbstractLamp GetLamp(Guid lampId)
+        {
+            if (Lamp1.Id == lampId)
+                return Lamp1;
+            if (Lamp2.Id == lampId)
+                return Lamp2;
+            throw new ArgumentOutOfRangeException(nameof(lampId), "ID lampada non valido.");
         }
     }
 }
