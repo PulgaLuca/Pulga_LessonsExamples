@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BlaisePascal.LessonsExamples.Domain
+namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
 {
     public class TwoLampsDevice
     {

@@ -1,12 +1,13 @@
 ﻿using System;
 
-namespace BlaisePascal.LessonsExamples.Domain
+namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
 {
     public class EcoLamp : AbstractLamp
     {
         private const int EcoMin = 0;
         private const int EcoDefault = 30;
         private const int EcoMax = 70;
+
         private const int DefaultAutoOffMinutes = 10;
         private const int MinAutoOffMinutes = 1;
 
@@ -17,6 +18,9 @@ namespace BlaisePascal.LessonsExamples.Domain
         public override int MinIntensity => EcoMin;
         public override int MaxIntensity => EcoMax;
         public override int DefaultIntensity => EcoDefault;
+
+
+
 
         /// <summary>
         /// Accende la lampada senza auto-off
@@ -53,9 +57,7 @@ namespace BlaisePascal.LessonsExamples.Domain
         public override void SetIntensity(int value)
         {
             base.SetIntensity(value);
-
-            if (autoOffAtUtc.HasValue)
-                autoOffAtUtc = DateTime.UtcNow.AddMinutes(DefaultAutoOffMinutes);
+            ResetAutoOffIfNeeded();
         }
 
         public override void SwitchOff()

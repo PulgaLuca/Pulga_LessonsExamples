@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BlaisePascal.LessonsExamples.Domain
+namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
 {
     public class LampsRow
     {

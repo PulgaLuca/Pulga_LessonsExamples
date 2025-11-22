@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BlaisePascal.LessonsExamples.Domain
+namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
 {
     public class LampsRowLinq
     {
@@ -20,10 +20,10 @@ namespace BlaisePascal.LessonsExamples.Domain
             _lamps.Count == 0 ? 0 : (int)_lamps.Average(l => l.Intensity);
 
         public int MaxIntensity =>
-            _lamps.Count == 0 ? 0 : (int)_lamps.Max(l => l.Intensity);
+            _lamps.Count == 0 ? 0 : _lamps.Max(l => l.Intensity);
 
         public int MinIntensity =>
-            _lamps.Count == 0 ? 0 : (int)_lamps.Min(l => l.Intensity);
+            _lamps.Count == 0 ? 0 : _lamps.Min(l => l.Intensity);
 
         // Constructor
         public LampsRowLinq(string name, List<AbstractLamp> lamps)

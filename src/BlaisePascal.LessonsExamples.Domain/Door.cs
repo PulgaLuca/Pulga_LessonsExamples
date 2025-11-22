@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.LessonsExamples.Domain
 {
-    public class Student
+    internal class Door
     {
-        // Attributo
-        private int age;
-        private string name;
-
-
     }
 }

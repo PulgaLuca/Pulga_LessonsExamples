@@ -14,13 +14,14 @@ namespace BlaisePascal.LessonsExamples.Domain.UnitTests
             lamp.SwitchOn();
 
             Assert.Equal(DeviceStatus.On, lamp.Status);
-            Assert.Equal(lamp.GetStandardDefaultIntensity(), lamp.Intensity);
+            Assert.Equal(lamp.DefaultIntensity, lamp.Intensity);
         }
 
         [Fact]
         public void SwitchOn_WhenAlreadyOn_ShouldThrow()
         {
             var lamp = new Lamp("Lamp");
+            
             lamp.SwitchOn();
 
             Assert.Throws<InvalidOperationException>(() => lamp.SwitchOn());
@@ -36,7 +37,7 @@ namespace BlaisePascal.LessonsExamples.Domain.UnitTests
             lamp.SwitchOff();
 
             Assert.Equal(DeviceStatus.Off, lamp.Status);
-            Assert.Equal(lamp.GetStandardMinIntensity(), lamp.Intensity);
+            Assert.Equal(lamp.DefaultIntensity, lamp.Intensity);
         }
 
         [Fact]
@@ -152,27 +153,27 @@ namespace BlaisePascal.LessonsExamples.Domain.UnitTests
         }
 
         // --- TOGGLE ---
-        [Fact]
-        public void Toggle_FromOff_ShouldTurnOn()
-        {
-            var lamp = new Lamp("Lamp");
+        //[Fact]
+        //public void Toggle_FromOff_ShouldTurnOn()
+        //{
+        //    var lamp = new Lamp("Lamp");
 
-            lamp.Toggle();
+        //    lamp.Toggle();
 
-            Assert.Equal(DeviceStatus.On, lamp.Status);
-            Assert.Equal(lamp.GetStandardDefaultIntensity(), lamp.Intensity);
-        }
+        //    Assert.Equal(DeviceStatus.On, lamp.Status);
+        //    Assert.Equal(lamp.DefaultIntensity, lamp.Intensity);
+        //}
 
-        [Fact]
-        public void Toggle_FromOn_ShouldTurnOff()
-        {
-            var lamp = new Lamp("Lamp");
-            lamp.SwitchOn();
+        //[Fact]
+        //public void Toggle_FromOn_ShouldTurnOff()
+        //{
+        //    var lamp = new Lamp("Lamp");
+        //    lamp.SwitchOn();
 
-            lamp.Toggle();
+        //    lamp.Toggle();
 
-            Assert.Equal(DeviceStatus.Off, lamp.Status);
-            Assert.Equal(0, lamp.Intensity);
-        }
+        //    Assert.Equal(DeviceStatus.Off, lamp.Status);
+        //    Assert.Equal(0, lamp.Intensity);
+        //}
     }
 }

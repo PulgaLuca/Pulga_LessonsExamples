@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.LessonsExamples.Domain.LuminousDevices;
+using System;
 using Xunit;
 
 namespace BlaisePascal.LessonsExamples.Domain.Tests

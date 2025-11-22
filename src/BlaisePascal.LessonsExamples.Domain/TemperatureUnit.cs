@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.LessonsExamples.Domain
 {
-    public class Position2D
+    public enum TemperatureUnit
     {
-        private int _positionX;
-        private int _positionY;
+        Celsius = 0,
+        Fahrenheit = 1
     }
 }
