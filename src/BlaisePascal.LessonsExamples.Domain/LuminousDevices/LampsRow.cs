@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BlaisePascal.LessonsExamples.Domain.LuminousDevices.ValueObjects;
+using BlaisePascal.LessonsExamples.Domain.Shared;
+using System;
 using System.Collections.Generic;
 
 namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
@@ -35,7 +37,7 @@ namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
                 int totalIntensity = 0;
                 foreach (var lamp in _lamps)
                 {
-                    totalIntensity += lamp.Intensity;
+                    totalIntensity += lamp.Intensity.Value;
                 }
                 return totalIntensity / _lamps.Count;
             }
@@ -50,8 +52,8 @@ namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
                 int maxIntensity = int.MinValue;
                 foreach (var lamp in _lamps)
                 {
-                    if (lamp.Intensity > maxIntensity)
-                        maxIntensity = lamp.Intensity;
+                    if (lamp.Intensity.Value > maxIntensity)
+                        maxIntensity = lamp.Intensity.Value;
                 }
                 return maxIntensity;
             }
@@ -66,8 +68,8 @@ namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
                 int minIntensity = int.MaxValue;
                 foreach (var lamp in _lamps)
                 {
-                    if (lamp.Intensity < minIntensity)
-                        minIntensity = lamp.Intensity;
+                    if (lamp.Intensity.Value < minIntensity)
+                        minIntensity = lamp.Intensity.Value;
                 }
                 return minIntensity;
             }
@@ -114,7 +116,7 @@ namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
         public void SetIntensityAll(int value)
         {
             for (int i = 0; i < _lamps.Count; i++)
-                _lamps[i].SetIntensity(value);
+                _lamps[i].SetIntensity(Brightness.From(value));
         }
 
         public void BrightenAll(int amount = DefaultBrightenAmount)
@@ -136,8 +138,8 @@ namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
         public void SwitchOff(int index) => GetLamp(index).SwitchOff();
         public void SwitchOff(Guid id) => GetLamp(id).SwitchOff();
 
-        public void SetIntensity(int index, int value) => GetLamp(index).SetIntensity(value);
-        public void SetIntensity(Guid id, int value) => GetLamp(id).SetIntensity(value);
+        public void SetIntensity(int index, int value) => GetLamp(index).SetIntensity(Brightness.From(value));
+        public void SetIntensity(Guid id, int value) => GetLamp(id).SetIntensity(Brightness.From(value));
 
         public void Brighten(int index, int amount) => GetLamp(index).Brighten(amount);
         public void Brighten(Guid id, int amount) => GetLamp(id).Brighten(amount);
@@ -156,7 +158,7 @@ namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
 
             for (int i = 1; i < _lamps.Count; i++)
             {
-                if (_lamps[i].Intensity > maxLamp.Intensity)
+                if (_lamps[i].Intensity.Value > maxLamp.Intensity.Value)
                     maxLamp = _lamps[i];
             }
 
@@ -172,7 +174,7 @@ namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
 
             for (int i = 1; i < _lamps.Count; i++)
             {
-                if (_lamps[i].Intensity < minLamp.Intensity)
+                if (_lamps[i].Intensity.Value < minLamp.Intensity.Value)
                     minLamp = _lamps[i];
             }
 
@@ -185,7 +187,7 @@ namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
 
             for (int i = 0; i < _lamps.Count; i++)
             {
-                int intensity = _lamps[i].Intensity;
+                int intensity = _lamps[i].Intensity.Value;
 
                 if (intensity >= min && intensity <= max)
                     result.Add(_lamps[i]);
@@ -224,7 +226,7 @@ namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
         {
             for (int i = 0; i < _lamps.Count; i++)
             {
-                if (_lamps[i].Intensity == value)
+                if (_lamps[i].Intensity.Value == value)
                     return _lamps[i];
             }
 
@@ -264,8 +266,8 @@ namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
                 for (int j = i + 1; j < n; j++)
                 {
                     bool condition = ascending
-                        ? list[j].Intensity < list[bestIndex].Intensity
-                        : list[j].Intensity > list[bestIndex].Intensity;
+                        ? list[j].Intensity.Value < list[bestIndex].Intensity.Value
+                        : list[j].Intensity.Value > list[bestIndex].Intensity.Value;
 
                     if (condition)
                         bestIndex = j;

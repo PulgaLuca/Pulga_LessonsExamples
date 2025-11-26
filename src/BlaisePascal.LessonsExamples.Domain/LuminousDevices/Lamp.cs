@@ -1,17 +1,11 @@
-﻿using System;
+﻿using BlaisePascal.LessonsExamples.Domain.LuminousDevices.ValueObjects;
 
 namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
 {
     public class Lamp : AbstractLamp
     {
-        private const int StandardMin = 0;
-        private const int StandardDefault = 50;
-        private const int StandardMax = 100;
-
         public Lamp(string name) : base(name) { }
 
-        public override int MinIntensity => StandardMin;
-        public override int MaxIntensity => StandardMax;
-        public override int DefaultIntensity => StandardDefault;
+        public override Brightness DefaultIntensity => Brightness.Medium();
     }
 }

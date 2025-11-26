@@ -1,4 +1,5 @@
 ﻿using BlaisePascal.LessonsExamples.Domain.LuminousDevices;
+using BlaisePascal.LessonsExamples.Domain.Shared;
 using System;
 using Xunit;
 

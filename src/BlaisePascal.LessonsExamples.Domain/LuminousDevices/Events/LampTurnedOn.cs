@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.LessonsExamples.Domain
+namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices.Events
 {
-    public enum TemperatureUnit
+    internal class LampTurnedOn
     {
-        Celsius = 0,
-        Fahrenheit = 1
     }
 }

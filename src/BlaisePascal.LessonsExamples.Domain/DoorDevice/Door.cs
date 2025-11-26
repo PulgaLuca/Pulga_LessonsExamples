@@ -1,5 +1,5 @@
-﻿using BlaisePascal.LessonsExamples.Domain.Devices;
-using BlaisePascal.LessonsExamples.Domain.DoorDevice;
+﻿using BlaisePascal.LessonsExamples.Domain.DoorDevice;
+using BlaisePascal.LessonsExamples.Domain.Shared;
 using System;
 
 namespace BlaisePascal.LessonsExamples.Domain.Doors

@@ -1,12 +1,12 @@
-﻿using System;
+﻿using BlaisePascal.LessonsExamples.Domain.Abstractions;
 
-namespace BlaisePascal.LessonsExamples.Domain.Devices
+namespace BlaisePascal.LessonsExamples.Domain.Shared
 {
-    public abstract class AbstractDevice
+    public abstract class AbstractDevice : IDevice
     {
         public Guid Id { get; }
         public string Name { get; protected set; }
-        public string? ImageUrl { get; protected set; } // TODO: Could be null, but we will set a default image ?? 
+        public string? ImageUrl { get; protected set; }
 
         public DeviceStatus Status { get; protected set; }
 

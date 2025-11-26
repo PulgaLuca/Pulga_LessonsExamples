@@ -1,4 +1,4 @@
-﻿using BlaisePascal.LessonsExamples.Domain.Devices;
+﻿using BlaisePascal.LessonsExamples.Domain.Shared;
 using BlaisePascal.LessonsExamples.Domain.ThermostatDevice;
 using System;
 

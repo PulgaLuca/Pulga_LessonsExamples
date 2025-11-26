@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.LessonsExamples.Domain.Shared;
+using System;
 using Xunit;
 
 namespace BlaisePascal.LessonsExamples.Domain.UnitTests

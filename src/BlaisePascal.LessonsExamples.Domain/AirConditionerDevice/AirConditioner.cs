@@ -1,35 +1,53 @@
 ﻿using BlaisePascal.LessonsExamples.Domain.AirConditionerDevice;
-using BlaisePascal.LessonsExamples.Domain.Devices;
+using BlaisePascal.LessonsExamples.Domain.AirConditionerDevice.ValueObjects;
+using BlaisePascal.LessonsExamples.Domain.Shared;
 using System;
 
 namespace BlaisePascal.LessonsExamples.Domain.Climate
 {
     public class AirConditioner : AbstractDevice
     {
-        // Temperature range configured by the domain
-        public double MinTemperature { get; private set; }
-        public double MaxTemperature { get; private set; }
+        public Temperature MinTemperature { get; private set; }
+        public Temperature MaxTemperature { get; private set; }
 
-        public double Temperature { get; private set; }
-        public TemperatureUnit TemperatureUnit { get; private set; }
+        public Temperature Temperature { get; private set; }
 
         public AcMode Mode { get; private set; }
         public FanSpeed FanSpeed { get; private set; }
 
-        public AirConditioner(string name, TemperatureUnit temperatureUnit, string? imageUrl = null) : base(name, imageUrl)
+        public TemperatureUnit TemperatureUnit => Temperature.Unit;
+
+        public AirConditioner(
+            string name,
+            TemperatureUnit unit,
+            double minTemp = 16,
+            double maxTemp = 30,
+            string? imageUrl = null
+        ) : base(name, imageUrl)
         {
-            TemperatureUnit = temperatureUnit;
+            MinTemperature = new Temperature(minTemp, unit);
+            MaxTemperature = new Temperature(maxTemp, unit);
+
+            Temperature = MinTemperature; // default start temperature
         }
 
-        public void SetTemperature(double value)
+        //   TEMPERATURE MANAGEMENT
+        public void SetTemperature(Temperature newTemp)
         {
             if (Status == DeviceStatus.Off)
                 throw new InvalidOperationException("Cannot change temperature when AC is off.");
 
-            if (value < MinTemperature || value > MaxTemperature)
-                throw new ArgumentOutOfRangeException(nameof(value), "Temperature out of allowed range.");
+            // Ensure same unit
+            Temperature tempInDeviceUnit = newTemp.ToUnit(TemperatureUnit);
 
-            Temperature = value;
+            // Validate range
+            if (tempInDeviceUnit.Value < MinTemperature.Value ||
+                tempInDeviceUnit.Value > MaxTemperature.Value)
+            {
+                throw new ArgumentOutOfRangeException(nameof(newTemp), "Temperature out of allowed range.");
+            }
+
+            Temperature = tempInDeviceUnit;
 
             if (IsEcoModeActive())
                 ApplyEcoModeRules();
@@ -37,6 +55,23 @@ namespace BlaisePascal.LessonsExamples.Domain.Climate
             LastModifiedAtUtc = DateTime.UtcNow;
         }
 
+        public void SetTemperatureUnit(TemperatureUnit newUnit)
+        {
+            if (!Enum.IsDefined(typeof(TemperatureUnit), newUnit))
+                throw new ArgumentException("Invalid temperature unit.", nameof(newUnit));
+
+            if (TemperatureUnit == newUnit)
+                return;
+
+            // Convert all domain bounds and current temperature
+            MinTemperature = MinTemperature.ToUnit(newUnit);
+            MaxTemperature = MaxTemperature.ToUnit(newUnit);
+            Temperature = Temperature.ToUnit(newUnit);
+
+            LastModifiedAtUtc = DateTime.UtcNow;
+        }
+
+        //   MODE & FAN
         public void SetFanSpeed(FanSpeed speed)
         {
             if (Status == DeviceStatus.Off)
@@ -69,39 +104,20 @@ namespace BlaisePascal.LessonsExamples.Domain.Climate
             LastModifiedAtUtc = DateTime.UtcNow;
         }
 
-        public void SetTemperatureUnit(TemperatureUnit newUnit)
-        {
-            if (!Enum.IsDefined(typeof(TemperatureUnit), newUnit))
-                throw new ArgumentException("Invalid temperature unit.", nameof(newUnit));
-
-            if (TemperatureUnit == newUnit)
-                return;
-
-            Temperature = newUnit switch
-            {
-                TemperatureUnit.Celsius => (Temperature - 32) * 5 / 9,
-                TemperatureUnit.Fahrenheit => (Temperature * 9 / 5) + 32,
-                _ => Temperature
-            };
-
-            TemperatureUnit = newUnit;
-            LastModifiedAtUtc = DateTime.UtcNow;
-        }
-
-        private bool IsEcoModeActive()
-        {
-            return Mode == AcMode.EcoMode;
-        }
+        //     ECO MODE RULES
+        private bool IsEcoModeActive() => Mode == AcMode.EcoMode;
 
         private void ApplyEcoModeRules()
         {
-            // Eco temperature band
-            const double ecoMin = 20;
-            const double ecoMax = 26;
+            // Eco temperature band in Celsius
+            Temperature ecoMin = Temperature.FromCelsius(20);
+            Temperature ecoMax = Temperature.FromCelsius(26);
 
-            Temperature = Math.Clamp(Temperature, ecoMin, ecoMax);
+            Temperature = Temperature
+                .ToUnit(TemperatureUnit)       // convert current temp to device unit
+                .Clamp(ecoMin.ToUnit(TemperatureUnit),
+                       ecoMax.ToUnit(TemperatureUnit));
 
-            // Limit fan power
             if (FanSpeed > FanSpeed.Medium)
                 FanSpeed = FanSpeed.Medium;
         }

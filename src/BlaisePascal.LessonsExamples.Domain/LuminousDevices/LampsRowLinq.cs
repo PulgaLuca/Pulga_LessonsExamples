@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.LessonsExamples.Domain.Shared;
+using System;
 using System.Collections.Generic;
 
 namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices

@@ -1,22 +1,20 @@
-﻿using System;
-using BlaisePascal.LessonsExamples.Domain.Devices;
+﻿using BlaisePascal.LessonsExamples.Domain.LuminousDevices.ValueObjects;
+using BlaisePascal.LessonsExamples.Domain.Shared;
+using System;
 
 namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
 {
-    public abstract class AbstractLamp : AbstractDevice
+    public abstract class AbstractLamp : AbstractDevice, ILamp
     {
-        public int Intensity { get; protected set; }
+        public Brightness Intensity { get; protected set; }
 
-        // Values depend on the specific lamp implementation (Lamp, EcoLamp in out case)
-        public abstract int MinIntensity { get; }
-        public abstract int MaxIntensity { get; }
-        public abstract int DefaultIntensity { get; }
+        public abstract Brightness DefaultIntensity { get; }
 
         private const int DefaultStepAmount = 10;
 
         protected AbstractLamp(string name, string? imageUrl = null) : base(name, imageUrl)
         {
-            Intensity = MinIntensity;
+            Intensity = Brightness.From(Brightness.Min);
         }
 
         public override void SwitchOn()
@@ -29,50 +27,44 @@ namespace BlaisePascal.LessonsExamples.Domain.LuminousDevices
         public override void SwitchOff()
         {
             base.SwitchOff();
-            Intensity = MinIntensity;
+            Intensity = Brightness.From(Brightness.Min);
             LastModifiedAtUtc = DateTime.UtcNow;
         }
 
-        public virtual void SetIntensity(int newIntensity)
+        public virtual void SetIntensity(Brightness newIntensity)
         {
             if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("It is not possible to change intensity when the lamp is off.");
+                throw new InvalidOperationException("Cannot change intensity when lamp is off.");
 
-            Intensity = Math.Clamp(newIntensity, MinIntensity, MaxIntensity);
+            Intensity = newIntensity;
             LastModifiedAtUtc = DateTime.UtcNow;
         }
 
-        public virtual void Dimmer()
-        {
-            Dimmer(DefaultStepAmount);
-        }
+        public void Dimmer() => Dimmer(DefaultStepAmount);
 
         public virtual void Dimmer(int amount)
         {
             if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("It is not possible to dim a lamp that is off.");
+                throw new InvalidOperationException("Lamp is off.");
 
             if (amount < 1)
-                throw new ArgumentOutOfRangeException(nameof(amount), "The change must be at least 1.");
+                throw new ArgumentOutOfRangeException(nameof(amount));
 
-            Intensity = Math.Max(MinIntensity, Intensity - amount);
+            Intensity = Intensity - amount;
             LastModifiedAtUtc = DateTime.UtcNow;
         }
 
-        public virtual void Brighten()
-        {
-            Brighten(DefaultStepAmount);
-        }
+        public void Brighten() => Brighten(DefaultStepAmount);
 
         public virtual void Brighten(int amount)
         {
             if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException("It is not possible to increase the intensity of a lamp that is off.");
+                throw new InvalidOperationException("Lamp is off.");
 
             if (amount < 1)
-                throw new ArgumentOutOfRangeException(nameof(amount), "The change must be at least 1.");
+                throw new ArgumentOutOfRangeException(nameof(amount));
 
-            Intensity = Math.Min(MaxIntensity, Intensity + amount);
+            Intensity = Intensity + amount;
             LastModifiedAtUtc = DateTime.UtcNow;
         }
     }
