@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlaisePascal.LessonsExamples.Application\BlaisePascal.LessonsExamples.Application.csproj" />
+    <ProjectReference Include="..\BlaisePascal.LessonsExamples.Domain\BlaisePascal.LessonsExamples.Domain.csproj" />
+    <ProjectReference Include="..\BlaisePascal.LessonsExamples.Infrastructure\BlaisePascal.LessonsExamples.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

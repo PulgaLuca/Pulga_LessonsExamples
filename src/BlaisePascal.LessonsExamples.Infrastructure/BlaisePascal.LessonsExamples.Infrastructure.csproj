@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Repositories\MongoDB\Devices\Lightning\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlaisePascal.LessonsExamples.Application\BlaisePascal.LessonsExamples.Application.csproj" />
+    <ProjectReference Include="..\BlaisePascal.LessonsExamples.Domain\BlaisePascal.LessonsExamples.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

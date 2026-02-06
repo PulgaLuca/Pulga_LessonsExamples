@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.LessonsExamples.Domain.Devices.Luminous.ValueObjects
+namespace BlaisePascal.LessonsExamples.Domain.Devices.Lightning.ValueObjects
 {
     public sealed class Brightness
     {
@@ -13,6 +13,7 @@ namespace BlaisePascal.LessonsExamples.Domain.Devices.Luminous.ValueObjects
 
         public const int Min = 0;
         public const int Max = 100;
+        public const int DefaultStepAmount = 10;
 
         private Brightness(int value)
         {
@@ -27,8 +28,10 @@ namespace BlaisePascal.LessonsExamples.Domain.Devices.Luminous.ValueObjects
         public static Brightness High() => new(75);
 
         // Operators overriding
-        public static Brightness operator +(Brightness b, int amount) => new(b.Value + amount);
-        public static Brightness operator -(Brightness b, int amount) => new(b.Value - amount);
+        // in questo caso è più utile int per le operazioni in AbstractLamp
+        // public static Brightness operator +(Brightness b, int amount) => new(b.Value + amount);
+        public static int operator +(Brightness b, int amount) => b.Value + amount;
+        public static int operator -(Brightness b, int amount) => b.Value - amount;
 
         public override string ToString() => $"{Value}%";
 

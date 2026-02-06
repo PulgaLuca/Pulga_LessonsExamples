@@ -1,22 +1,20 @@
 ﻿using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions;
 using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.VO;
-using BlaisePascal.LessonsExamples.Domain.Devices.Luminous.ValueObjects;
+using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.ValueObjects;
 using System;
 
-namespace BlaisePascal.LessonsExamples.Domain.Devices.Luminous
+namespace BlaisePascal.LessonsExamples.Domain.Devices.Lightning
 {
     public class EcoLamp : AbstractLamp
     {
-        public override Brightness DefaultIntensity => Brightness.From(30);
+        public override Brightness DefaultBrightness => Brightness.From(30);
 
         private const int DefaultAutoOffMinutes = 10;
         private const int MinAutoOffMinutes = 1;
 
         private DateTime? autoOffAtUtc;
 
-        public EcoLamp(DeviceName name) : base(name)
-        {
-        }
+        public EcoLamp(DeviceName name, DeviceImage imageUrl) : base(name, imageUrl) { }
 
         public override void SwitchOn()
         {
@@ -40,11 +38,11 @@ namespace BlaisePascal.LessonsExamples.Domain.Devices.Luminous
             autoOffAtUtc = DateTime.UtcNow.AddMinutes(autoOffMinutes);
         }
 
-        public override void SetIntensity(Brightness value)
-        {
-            base.SetIntensity(value);
-            ResetAutoOffIfNeeded();
-        }
+        //public override void Change(Brightness value)
+        //{
+        //    base.SetIntensity(value);
+        //    ResetAutoOffIfNeeded();
+        //}
 
         public override void Dimmer(int amount)
         {

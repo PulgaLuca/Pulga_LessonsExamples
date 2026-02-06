@@ -1,7 +1,7 @@
-﻿using BlaisePascal.LessonsExamples.Domain.Devices.Luminous.ValueObjects;
+﻿using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.ValueObjects;
 using System;
 
-namespace BlaisePascal.LessonsExamples.Domain.Devices.Luminous
+namespace BlaisePascal.LessonsExamples.Domain.Devices.Lightning
 {
     public class TwoLampsDevice
     {
@@ -54,21 +54,21 @@ namespace BlaisePascal.LessonsExamples.Domain.Devices.Luminous
         }
 
         // ------- Set Intensity -------
-        public void SetIntensity(int newIntensity)
-        {
-            Lamp1.SetIntensity(Brightness.From(newIntensity));
-            Lamp2.SetIntensity(Brightness.From(newIntensity));
-        }
+        //public void SetIntensity(int newIntensity)
+        //{
+        //    Lamp1.SetIntensity(Brightness.From(newIntensity));
+        //    Lamp2.SetIntensity(Brightness.From(newIntensity));
+        //}
 
-        public void SetIntensity(int lampNumber, int newIntensity)
-        {
-            GetLamp(lampNumber).SetIntensity(Brightness.From(newIntensity));
-        }
+        //public void SetIntensity(int lampNumber, int newIntensity)
+        //{
+        //    GetLamp(lampNumber).SetIntensity(Brightness.From(newIntensity));
+        //}
 
-        public void SetIntensity(Guid lampId, int newIntensity)
-        {
-            GetLamp(lampId).SetIntensity(Brightness.From(newIntensity));
-        }
+        //public void SetIntensity(Guid lampId, int newIntensity)
+        //{
+        //    GetLamp(lampId).SetIntensity(Brightness.From(newIntensity));
+        //}
 
         // ------- Dimmer -------
         public void Dimmer(int amount = DefaultStepAmount)

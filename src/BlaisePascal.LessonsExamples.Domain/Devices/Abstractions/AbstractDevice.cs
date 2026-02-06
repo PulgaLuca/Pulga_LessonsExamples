@@ -6,16 +6,14 @@ namespace BlaisePascal.LessonsExamples.Domain.Devices.Abstractions
 {
     public abstract class AbstractDevice : IDevice
     {
-        public Guid Id { get; }
-        public DeviceName Name { get; protected set; }
-        public DeviceImage? ImageUrl { get; protected set; }
+        public Guid Id { get; set; }
+        public DeviceName Name { get; set; }
+        public DeviceImage ImageUrl { get; set; }
+        public DeviceStatus Status { get; set; }
+        public DateTime CreatedAtUtc { get; set; }
+        public DateTime LastModifiedAtUtc { get; set; }
 
-        public DeviceStatus Status { get; protected set; }
-
-        public DateTime CreatedAtUtc { get; protected set; }
-        public DateTime LastModifiedAtUtc { get; protected set; }
-
-        protected AbstractDevice(DeviceName name, DeviceImage? imageUrl = null)
+        protected AbstractDevice(DeviceName name, DeviceImage imageUrl)
         {
             Id = Guid.NewGuid();
             Name = name;
@@ -28,7 +26,6 @@ namespace BlaisePascal.LessonsExamples.Domain.Devices.Abstractions
 
         public virtual void SwitchOn()
         {
-            EnsureDeviceIsOn();
             Status = DeviceStatus.On;
             Touch();
         }

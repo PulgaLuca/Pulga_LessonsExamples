@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.LessonsExamples.Domain.Devices.Luminous.ValueObjects
+namespace BlaisePascal.LessonsExamples.Domain.Devices.Lightning.ValueObjects
 {
     public sealed class Color
     {
