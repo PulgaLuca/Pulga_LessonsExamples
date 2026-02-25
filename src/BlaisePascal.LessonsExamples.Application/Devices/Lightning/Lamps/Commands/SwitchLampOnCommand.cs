@@ -1,22 +1,23 @@
-﻿using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories;
+﻿using BlaisePascal.LessonsExamples.Domain.Devices.Lightning;
+using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories;
 
 namespace BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Commands
 {
     public class SwitchOnLampCommand
     {
-        private readonly ILampRepository _repository;
+        private readonly ILampRepository _lampRepository;
         public SwitchOnLampCommand(ILampRepository repository)
         {
-            _repository = repository;
+            _lampRepository = repository;
         }
 
         public void Execute(Guid lampId)
         {
-            var lamp = _repository.GetById(lampId);
+            Lamp lamp = _lampRepository.GetById(lampId);
             if (lamp != null)
             {
                 lamp.SwitchOn();
-                _repository.Update(lamp);
+                _lampRepository.Update(lamp);
             }
         }
     }

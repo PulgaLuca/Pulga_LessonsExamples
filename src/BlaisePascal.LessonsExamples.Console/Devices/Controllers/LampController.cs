@@ -83,7 +83,8 @@ public class LampController
         try
         {
             var lamp = SelectLamp();
-            if (lamp == null) return;
+            if (lamp == null) 
+                return;
 
             new SwitchOffLampCommand(_repository).Execute(lamp.Id);
             Console.WriteLine("Lamp switched OFF");

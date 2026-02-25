@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfLampDto xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <LampDto>
+    <Id>2206c9c3-c469-4aa9-bf2c-01c6b35793f3</Id>
+    <Name>Kotlin Lamp</Name>
+    <ImageUrl />
+    <Status>OFF</Status>
+    <Brightness>0</Brightness>
+    <CreatedAtUtc>2026-02-25T10:34:17.6220112Z</CreatedAtUtc>
+    <LastModifiedAtUtc>2026-02-25T10:34:17.6221214Z</LastModifiedAtUtc>
+  </LampDto>
+  <LampDto>
+    <Id>d0c505a5-92f3-4f7b-bc5d-aeb9a586f4ed</Id>
+    <Name>Java Lamp</Name>
+    <ImageUrl />
+    <Status>OFF</Status>
+    <Brightness>0</Brightness>
+    <CreatedAtUtc>2026-02-25T10:34:26.9043675Z</CreatedAtUtc>
+    <LastModifiedAtUtc>2026-02-25T10:34:26.9043682Z</LastModifiedAtUtc>
+  </LampDto>
+</ArrayOfLampDto>

@@ -1,6 +1,6 @@
 ﻿using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions;
 
-namespace BlaisePascal.LessonsExamples.Application.Devices.Mappers
+namespace BlaisePascal.LessonsExamples.Application.Devices.Abstraction.Mappers
 {
     public static class DeviceStatusMapper
     {

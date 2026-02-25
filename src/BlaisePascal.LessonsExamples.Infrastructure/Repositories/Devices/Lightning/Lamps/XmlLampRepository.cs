@@ -2,22 +2,22 @@
 using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Mappers;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories;
-using System.Text.Json;
+using System.Xml.Serialization;
 
-namespace BlaisePascal.LessonsExamples.Infrastructure.Repositories.Json.Devices.Lightning
+namespace BlaisePascal.LessonsExamples.Infrastructure.Repositories.Devices.Lightning.Lamps
 {
-    public class JsonLampRepository : ILampRepository
+    public class XmlLampRepository : ILampRepository
     {
-        private readonly string _filePath = "lamps.json";
+        private readonly string _filePath;
 
-        public JsonLampRepository()
+        public XmlLampRepository()
         {
             var solutionRoot = LocalPathHelper.GetSolutionRoot();
 
             var dataFolder = Path.Combine(solutionRoot, "data");
             Directory.CreateDirectory(dataFolder);
 
-            _filePath = Path.Combine(dataFolder, "lamps.json");
+            _filePath = Path.Combine(dataFolder, "lamps.xml");
 
             if (!File.Exists(_filePath))
             {
@@ -64,9 +64,17 @@ namespace BlaisePascal.LessonsExamples.Infrastructure.Repositories.Json.Devices.
 
         private List<Lamp> Load()
         {
-            var json = File.ReadAllText(_filePath);
+            if (!File.Exists(_filePath))
+                return new List<Lamp>();
 
-            var dtos = JsonSerializer.Deserialize<List<LampDto>>(json) ?? new List<LampDto>();
+            var serializer = new XmlSerializer(typeof(List<LampDto>));
+
+            using var stream = new FileStream(_filePath, FileMode.Open);
+
+            if (stream.Length == 0)
+                return new List<Lamp>();
+
+            var dtos = (List<LampDto>)serializer.Deserialize(stream)!;
 
             return dtos.Select(LampMapper.ToDomain).ToList();
         }
@@ -75,10 +83,11 @@ namespace BlaisePascal.LessonsExamples.Infrastructure.Repositories.Json.Devices.
         {
             var dtos = lamps.Select(LampMapper.ToDto).ToList();
 
-            var json = JsonSerializer.Serialize(dtos,
-                new JsonSerializerOptions { WriteIndented = true });
+            var serializer = new XmlSerializer(typeof(List<LampDto>));
 
-            File.WriteAllText(_filePath, json);
+            using var stream = new FileStream(_filePath, FileMode.Create);
+
+            serializer.Serialize(stream, dtos);
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.VO;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories;
+using System.Xml;
 
-namespace BlaisePascal.LessonsExamples.Infrastructure.Repositories.InMemory.Devices.Lightning
+namespace BlaisePascal.LessonsExamples.Infrastructure.Repositories.Devices.Lightning.Lamps.InMemory
 {
     public class InMemoryLampRepository : ILampRepository
     {
@@ -26,7 +27,7 @@ namespace BlaisePascal.LessonsExamples.Infrastructure.Repositories.InMemory.Devi
 
         public Lamp GetById(Guid id)
         {
-            return _lamps.First(l => l.Id == id);
+            return _lamps.First(lamp => lamp.Id == id);
         }
 
         public void Add(Lamp lamp)
@@ -47,7 +48,7 @@ namespace BlaisePascal.LessonsExamples.Infrastructure.Repositories.InMemory.Devi
 
         public void Update(Lamp lamp)
         {
-            // Non serve fare nulla in memoria obv
+            // Actually not to do
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories;
-using BlaisePascal.LessonsExamples.Infrastructure.Repositories.Json.Devices.Lightning;
+using BlaisePascal.LessonsExamples.Infrastructure.Repositories.Devices.Lightning.Lamps;
 
 class Program
 {
     static void Main()
     {
-        ILampRepository repository = new JsonLampRepository();
+        ILampRepository repository = new XmlLampRepository();
         LampController controller = new LampController(repository);
 
         bool exit = false;

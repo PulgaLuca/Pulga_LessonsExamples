@@ -1,0 +1,2 @@
+Id|Name|ImageUrl|Status|Brightness|CreatedAtUtc|LastModifiedAtUtc
+46d46cd8-3557-4d15-8340-729f245e21f9|Amoungus Lamp||OFF|0|2026-02-25T10:32:26.7460196Z|2026-02-25T10:32:26.7461093Z

@@ -1,5 +1,5 @@
-﻿using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Dto;
-using BlaisePascal.LessonsExamples.Application.Devices.Mappers;
+﻿using BlaisePascal.LessonsExamples.Application.Devices.Abstraction.Mappers;
+using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Dto;
 using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.VO;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.ValueObjects;
