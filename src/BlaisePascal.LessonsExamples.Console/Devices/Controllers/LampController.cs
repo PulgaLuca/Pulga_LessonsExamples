@@ -12,6 +12,22 @@ public class LampController
         _repository = repository;
     }
 
+    // Add new lamp obj to injected specific repo
+    public void AddLamp()
+    {
+        Console.Write("Lamp name: ");
+        string name = Console.ReadLine();
+
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            Console.WriteLine("Invalid name");
+            return;
+        }
+
+        new AddLampCommand(_repository).Execute(name, "");
+        Console.WriteLine("Lamp added!");
+    }
+
     // Mostra lampade
     public void ShowLamps()
     {
@@ -31,22 +47,6 @@ public class LampController
             var l = lamps[i];
             Console.WriteLine($"{i + 1}. {l.Name}\n{l}");
         }
-    }
-
-    // Add Lamp
-    public void AddLamp()
-    {
-        Console.Write("Lamp name: ");
-        string name = Console.ReadLine();
-
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            Console.WriteLine("Invalid name");
-            return;
-        }
-
-        new AddLampCommand(_repository).Execute(name: name, imageUrl: "");
-        Console.WriteLine("Lamp added!");
     }
 
     // Remove Lamp
@@ -112,9 +112,7 @@ public class LampController
 
         try
         {
-            new ChangeIntensityCommand(_repository)
-                .Execute(lamp.Id, intensity);
-
+            new ChangeIntensityCommand(_repository).Execute(lamp.Id, intensity);
             Console.WriteLine("Intensity updated");
         }
         catch (InvalidOperationException ex)
@@ -122,10 +120,17 @@ public class LampController
             // Errore di dominio (lamp spenta)
             Console.WriteLine($"ERROR: {ex.Message}");
         }
-        catch (ArgumentOutOfRangeException)
-        {
-            Console.WriteLine("ERROR: Intensity must be greater than 0");
-        }
+    }
+    public void ShowMenu()
+    {
+        Console.WriteLine();
+        Console.WriteLine("1 - Add lamp");
+        Console.WriteLine("2 - Remove lamp");
+        Console.WriteLine("3 - Switch ON");
+        Console.WriteLine("4 - Switch OFF");
+        Console.WriteLine("5 - Change intensity");
+        Console.WriteLine("0 - Exit");
+        Console.WriteLine();
     }
 
 

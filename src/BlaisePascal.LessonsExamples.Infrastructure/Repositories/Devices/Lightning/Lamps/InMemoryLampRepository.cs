@@ -27,7 +27,7 @@ namespace BlaisePascal.LessonsExamples.Infrastructure.Repositories.Devices.Light
 
         public Lamp GetById(Guid id)
         {
-            return _lamps.First(lamp => lamp.Id == id);
+            return _lamps.FirstOrDefault(lamp => lamp.Id == id);
         }
 
         public void Add(Lamp lamp)

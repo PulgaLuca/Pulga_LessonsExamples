@@ -26,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{68F1F476-0
 		data\lamps.csv = data\lamps.csv
 		data\lamps.json = data\lamps.json
 		data\lamps.txt = data\lamps.txt
+		data\lamps.xml = data\lamps.xml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.LessonsExamples.Infrastructure", "src\BlaisePascal.LessonsExamples.Infrastructure\BlaisePascal.LessonsExamples.Infrastructure.csproj", "{A25EABA3-79A4-4F04-A951-EE1CDCDD681B}"

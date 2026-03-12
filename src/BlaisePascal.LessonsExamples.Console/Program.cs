@@ -1,19 +1,40 @@
-﻿using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories;
-using BlaisePascal.LessonsExamples.Infrastructure.Repositories.Devices.Lightning.Lamps;
+﻿using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Commands;
+using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Queries;
+using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories;
+using BlaisePascal.LessonsExamples.Infrastructure.Repositories.Devices.Lightning.Lamps.InMemory;
 
 class Program
 {
     static void Main()
     {
-        ILampRepository repository = new XmlLampRepository();
-        LampController controller = new LampController(repository);
+        // quale formato di persistenza sto utilizzando
+        ILampRepository repository = new InMemoryLampRepository();
 
         bool exit = false;
 
+        // Finchè l'utente non decide di uscire, mostro la lista delle lampade e il menu
         while (!exit)
         {
             Console.Clear();
-            controller.ShowLamps();
+            var lamps = new GetAllLampsQuery(repository).Execute();
+
+            Console.WriteLine("LAMPS:");
+            Console.WriteLine("-------------------------------------");
+
+            if (lamps.Count == 0)
+            {
+                Console.WriteLine("No lamps available");
+                return;
+            }
+
+            // Mostro la lista delle lampade con il loro stato
+            for (int i = 0; i < lamps.Count; i++)
+            {
+                var l = lamps[i];
+                Console.WriteLine($"{i + 1}. {l.Name}\n{l}");
+            }
+
+            // Mostro il menu di opzioni per le lampade
             ShowMenu();
 
             Console.Write("Choose an option: ");
@@ -24,23 +45,33 @@ class Program
             switch (choice)
             {
                 case "1":
-                    controller.AddLamp();
+                    Console.Write("Lamp name: ");
+                    string name = Console.ReadLine();
+
+                    if (string.IsNullOrWhiteSpace(name))
+                    {
+                        Console.WriteLine("Invalid name");
+                        return;
+                    }
+
+                    new AddLampCommand(repository).Execute(name, "");
+                    Console.WriteLine("Lamp added!");
                     break;
 
                 case "2":
-                    controller.RemoveLamp();
+
                     break;
 
                 case "3":
-                    controller.SwitchOn();
+
                     break;
 
                 case "4":
-                    controller.SwitchOff();
+
                     break;
 
                 case "5":
-                    controller.ChangeIntensity();
+
                     break;
 
                 case "0":
@@ -56,7 +87,7 @@ class Program
         }
     }
 
-    static void ShowMenu()
+    public static void ShowMenu()
     {
         Console.WriteLine();
         Console.WriteLine("1 - Add lamp");

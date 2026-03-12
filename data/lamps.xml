@@ -4,10 +4,10 @@
     <Id>2206c9c3-c469-4aa9-bf2c-01c6b35793f3</Id>
     <Name>Kotlin Lamp</Name>
     <ImageUrl />
-    <Status>OFF</Status>
-    <Brightness>0</Brightness>
+    <Status>ON</Status>
+    <Brightness>100</Brightness>
     <CreatedAtUtc>2026-02-25T10:34:17.6220112Z</CreatedAtUtc>
-    <LastModifiedAtUtc>2026-02-25T10:34:17.6221214Z</LastModifiedAtUtc>
+    <LastModifiedAtUtc>2026-02-27T08:35:44.457267Z</LastModifiedAtUtc>
   </LampDto>
   <LampDto>
     <Id>d0c505a5-92f3-4f7b-bc5d-aeb9a586f4ed</Id>

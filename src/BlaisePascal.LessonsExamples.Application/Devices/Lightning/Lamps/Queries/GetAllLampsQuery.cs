@@ -1,7 +1,5 @@
 ﻿using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Dto;
 using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Mappers;
-using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions;
-using BlaisePascal.LessonsExamples.Domain.Devices.Lightning;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories;
 
 namespace BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Queries
