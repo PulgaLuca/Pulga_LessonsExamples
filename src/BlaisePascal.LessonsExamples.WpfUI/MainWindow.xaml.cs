@@ -20,6 +20,9 @@ namespace BlaisePascal.LessonsExamples.WpfUI
 
         private LampDto SelectedLamp => LampList.SelectedItem as LampDto;
 
+        // Necessario affinchè LampDto NON implementa INotifyPropertyChanged
+        // WPF non sa quando i valori cambiano delle property di LampDto,
+        // quindi è necessario ricaricare tutta la lista ogni volta che si esegue un comando che modifica lo stato di una lampada
         private void Refresh()
         {
             LampList.ItemsSource = new GetAllLampsQuery(_repo).Execute();

@@ -91,7 +91,7 @@
 
             </materialDesign:Card>
 
-            <!-- CONTROLLI LAMPADA -->
+            <!-- CONTROLLI LAMP -->
             <materialDesign:Card Margin="5" Padding="15">
 
                 <StackPanel>
