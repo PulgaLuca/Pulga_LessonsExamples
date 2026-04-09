@@ -12,6 +12,18 @@ public class LampController
         _repository = repository;
     }
 
+    public void ShowMenu()
+    {
+        Console.WriteLine();
+        Console.WriteLine("1 - Add lamp");
+        Console.WriteLine("2 - Remove lamp");
+        Console.WriteLine("3 - Switch ON");
+        Console.WriteLine("4 - Switch OFF");
+        Console.WriteLine("5 - Change intensity");
+        Console.WriteLine("0 - Exit");
+        Console.WriteLine();
+    }
+    
     // Add new lamp obj to injected specific repo
     public void AddLamp()
     {
@@ -121,18 +133,6 @@ public class LampController
             Console.WriteLine($"ERROR: {ex.Message}");
         }
     }
-    public void ShowMenu()
-    {
-        Console.WriteLine();
-        Console.WriteLine("1 - Add lamp");
-        Console.WriteLine("2 - Remove lamp");
-        Console.WriteLine("3 - Switch ON");
-        Console.WriteLine("4 - Switch OFF");
-        Console.WriteLine("5 - Change intensity");
-        Console.WriteLine("0 - Exit");
-        Console.WriteLine();
-    }
-
 
     // Select Lamp
     private LampDto SelectLamp()
