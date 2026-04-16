@@ -1,5 +1,7 @@
 ﻿using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions;
+using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.Events;
 using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.VO;
+using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Events;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.ValueObjects;
 using System;
 
@@ -11,26 +13,17 @@ namespace BlaisePascal.LessonsExamples.Domain.Devices.Lightning
 
         public abstract Brightness DefaultBrightness { get; }
 
-        public AbstractLamp(DeviceName name, DeviceImage imageUrl) : base(name, imageUrl)
+        protected AbstractLamp(DeviceName name, DeviceImage imageUrl) : base(name, imageUrl)
         {
             Brightness = Brightness.From(Brightness.Min);
-        }
-
-        public AbstractLamp(Guid id, DeviceName name, DeviceImage imageUrl, DeviceStatus status, Brightness brightness, DateTime createdAtUtc, DateTime lastModifiedAtUtc) : base(name, imageUrl)
-        {
-            Id = id;
-            Name = name;
-            ImageUrl = imageUrl;
-            Status = status;
-            Brightness = brightness;
-            CreatedAtUtc = createdAtUtc;
-            LastModifiedAtUtc = lastModifiedAtUtc;
         }
 
         public override void SwitchOn()
         {
             base.SwitchOn();
             Brightness = DefaultBrightness;
+
+            Raise(new DeviceSwitchedOnEvent(Id));
             Touch();
         }
 
@@ -38,14 +31,19 @@ namespace BlaisePascal.LessonsExamples.Domain.Devices.Lightning
         {
             base.SwitchOff();
             Brightness = Brightness.From(Brightness.Min);
+
+            Raise(new DeviceSwitchedOffEvent(Id));
             Touch();
         }
 
         public virtual void ChangeBrightnessTo(int newIntensity)
         {
-            CheckLampOff();
+            EnsureIsOn();
 
+            Brightness oldBrightness = Brightness;
             Brightness = Brightness.From(newIntensity);
+
+            Raise(new BrightnessChangedEvent(Id, oldBrightness, Brightness));
             Touch();
         }
 
@@ -53,9 +51,12 @@ namespace BlaisePascal.LessonsExamples.Domain.Devices.Lightning
 
         public virtual void Dimmer(int amount)
         {
-            CheckLampOff();
+            EnsureIsOn();
 
-            Brightness = Brightness.From(Brightness - amount);
+            Brightness oldBrightness = Brightness;
+            Brightness = Brightness.Decrease(amount);
+
+            Raise(new BrightnessChangedEvent(Id, oldBrightness, Brightness));
             Touch();
         }
 
@@ -63,22 +64,19 @@ namespace BlaisePascal.LessonsExamples.Domain.Devices.Lightning
 
         public virtual void Brighten(int amount)
         {
-            CheckLampOff();
+            EnsureIsOn();
 
-            Brightness = Brightness.From(Brightness + amount);
+            Brightness oldBrightness = Brightness;
+            Brightness = Brightness.Increase(amount);
+
+            Raise(new BrightnessChangedEvent(Id, oldBrightness, Brightness));
             Touch();
         }
 
-        private void CheckLampOff()
+        private void EnsureIsOn()
         {
             if (Status == DeviceStatus.Off)
                 throw new InvalidOperationException("Lamp is off.");
-        }
-
-        private void CheckLampOn()
-        {
-            if (Status == DeviceStatus.On)
-                throw new InvalidOperationException("Lamp is on.");
         }
     }
 }

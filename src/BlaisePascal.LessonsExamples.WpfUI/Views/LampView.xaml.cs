@@ -2,6 +2,7 @@
 using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Dto;
 using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Queries;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories;
+using BlaisePascal.LessonsExamples.Infrastructure.Repositories.Devices.Lightning.Lamps.InMemory;
 using BlaisePascal.LessonsExamples.Infrastructure.Repositories.Devices.Lightning.Lamps.Json.Devices.Lightning;
 using System;
 using System.Linq;

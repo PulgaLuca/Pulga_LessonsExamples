@@ -1,14 +1,5 @@
 [
   {
-    "Id": "3706f5c3-0c02-4251-a8af-ebf64bb1501e",
-    "Name": "Pascal Lamp",
-    "ImageUrl": "",
-    "Status": "ON",
-    "Brightness": 89,
-    "CreatedAtUtc": "2026-02-06T15:02:00.4960108Z",
-    "LastModifiedAtUtc": "2026-02-06T15:03:25.2206268Z"
-  },
-  {
     "Id": "13ca0acc-6e2d-4af9-b49b-84d7714e8548",
     "Name": "Living Room Lamp",
     "ImageUrl": "",
@@ -16,5 +7,23 @@
     "Brightness": 0,
     "CreatedAtUtc": "2026-02-06T15:03:37.3135609Z",
     "LastModifiedAtUtc": "2026-03-13T10:38:35.5146291Z"
+  },
+  {
+    "Id": "0ff827b6-ff7c-4d92-beb8-c2bbba421f0a",
+    "Name": "Prova",
+    "ImageUrl": "",
+    "Status": "ON",
+    "Brightness": 78,
+    "CreatedAtUtc": "2026-04-15T08:46:11.5549453Z",
+    "LastModifiedAtUtc": "2026-04-15T08:48:14.0438806Z"
+  },
+  {
+    "Id": "4ebcf3d7-59f7-4c4e-bb19-1b18dbf851a1",
+    "Name": "pesto",
+    "ImageUrl": "",
+    "Status": "OFF",
+    "Brightness": 0,
+    "CreatedAtUtc": "2026-04-15T08:48:46.1046305Z",
+    "LastModifiedAtUtc": "2026-04-15T08:48:46.1046309Z"
   }
 ]

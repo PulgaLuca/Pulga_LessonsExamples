@@ -9,13 +9,17 @@ namespace BlaisePascal.LessonsExamples.Domain.Devices.Lightning
         public Lamp(DeviceName name, DeviceImage image) : base(name, image) { }
 
         public Lamp(Guid id, DeviceName name, DeviceImage imageUrl, DeviceStatus status, Brightness brightness, DateTime createdAtUtc, DateTime lastModifiedAtUtc) 
-            : base(id, name, imageUrl, status, brightness, createdAtUtc, lastModifiedAtUtc) { }
+            : base(name, imageUrl)
+        {
+            Id = id;
+            Name = name;
+            ImageUrl = imageUrl;
+            Status = status;
+            Brightness = brightness;
+            CreatedAtUtc = createdAtUtc;
+            LastModifiedAtUtc = lastModifiedAtUtc;
+        }
 
         public override Brightness DefaultBrightness => Brightness.Medium();
-
-        public void Change(int intensity)
-        {
-            Brightness = Brightness.From(intensity);
-        }
     }
 }

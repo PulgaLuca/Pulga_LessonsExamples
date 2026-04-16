@@ -6,8 +6,6 @@ using BlaisePascal.LessonsExamples.Infrastructure.Repositories.Devices.Lightning
 using BlaisePascal.LessonsExamples.Infrastructure.Repositories.Devices.Lightning.Lamps.Json.Devices.Lightning;
 using System.Windows;
 
-using System.Windows;
-
 namespace BlaisePascal.LessonsExamples.WpfUI
 {
     public partial class MainWindow : Window

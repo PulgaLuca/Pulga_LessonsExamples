@@ -1,12 +1,13 @@
 ﻿using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.Errors;
+using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.Events;
 using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.Interfaces;
 using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.VO;
+using BlaisePascal.LessonsExamples.SharedKernel;
 
 namespace BlaisePascal.LessonsExamples.Domain.Devices.Abstractions
 {
-    public abstract class AbstractDevice : IDevice
+    public abstract class AbstractDevice : Entity, IDevice
     {
-        public Guid Id { get; set; }
         public DeviceName Name { get; set; }
         public DeviceImage ImageUrl { get; set; }
         public DeviceStatus Status { get; set; }
@@ -27,15 +28,15 @@ namespace BlaisePascal.LessonsExamples.Domain.Devices.Abstractions
         public virtual void SwitchOn()
         {
             Status = DeviceStatus.On;
+            Raise(new DeviceSwitchedOnEvent(Id));
             Touch();
         }
 
         public virtual void SwitchOff()
         {
-            if (Status == DeviceStatus.Off)
-                throw new InvalidOperationException($"{Name} is already off.");
-
+            EnsureDeviceIsOff();
             Status = DeviceStatus.Off;
+            Raise(new DeviceSwitchedOffEvent(Id));
             Touch();
         }
 

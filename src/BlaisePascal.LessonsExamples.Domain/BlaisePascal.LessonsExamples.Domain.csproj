@@ -10,4 +10,8 @@
     <Folder Include="Automations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BlaisePascal.LessonsExamples.SharedKernel\BlaisePascal.LessonsExamples.SharedKernel.csproj" />
+  </ItemGroup>
+
 </Project>
