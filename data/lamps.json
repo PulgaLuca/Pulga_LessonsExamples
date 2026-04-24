@@ -16,14 +16,5 @@
     "Brightness": 78,
     "CreatedAtUtc": "2026-04-15T08:46:11.5549453Z",
     "LastModifiedAtUtc": "2026-04-15T08:48:14.0438806Z"
-  },
-  {
-    "Id": "4ebcf3d7-59f7-4c4e-bb19-1b18dbf851a1",
-    "Name": "pesto",
-    "ImageUrl": "",
-    "Status": "OFF",
-    "Brightness": 0,
-    "CreatedAtUtc": "2026-04-15T08:48:46.1046305Z",
-    "LastModifiedAtUtc": "2026-04-15T08:48:46.1046309Z"
   }
 ]

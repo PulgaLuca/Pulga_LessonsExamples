@@ -2,13 +2,14 @@
 using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Mappers;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories;
+using BlaisePascal.LessonsExamples.SharedKernel;
 using System.Text.Json;
 
 namespace BlaisePascal.LessonsExamples.Infrastructure.Repositories.Devices.Lightning.Lamps.Json.Devices.Lightning
 {
     public class JsonLampRepository : ILampRepository
     {
-        private readonly string _filePath = "lamps.json";
+        private readonly string _filePath;
 
         public JsonLampRepository()
         {
@@ -25,48 +26,109 @@ namespace BlaisePascal.LessonsExamples.Infrastructure.Repositories.Devices.Light
             }
         }
 
-        public List<Lamp> GetAll()
+        public Result<List<Lamp>> GetAll()
         {
-            return Load();
+            try
+            {
+                return Result.Success(Load());
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure<List<Lamp>>(Error.NotFound("[LAMP REPOSITORY]", ex.Message));
+            }
         }
 
-        public Lamp GetById(Guid id)
+        public Result<Lamp> GetById(Guid id)
         {
-            return Load().First(l => l.Id == id);
+            try
+            {
+                var lamps = Load();
+
+                var lamp = lamps.FirstOrDefault(l => l.Id == id);
+
+                if (lamp is null)
+                    return Result.Failure<Lamp>(Error.NotFound("[LAMP REPOSITORY]", "Lamp not found"));
+
+                return Result.Success(lamp);
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure<Lamp>(Error.NotFound("[LAMP REPOSITORY]", ex.Message));
+            }
         }
 
-        public void Add(Lamp lamp)
+        public Result Add(Lamp lamp)
         {
-            var lamps = Load();
-            lamps.Add(lamp);
-            Save(lamps);
+            try
+            {
+                var lampsResult = GetAll();
+                if (lampsResult.IsFailure)
+                    return Result.Failure(lampsResult.Error);
+
+                var lamps = lampsResult.Value;
+
+                lamps.Add(lamp);
+                Save(lamps);
+
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure(Error.NotFound("[LAMP REPOSITORY]", ex.Message));
+            }
         }
 
-        public void Update(Lamp lamp)
+        public Result Update(Lamp lamp)
         {
-            var lamps = Load();
+            try
+            {
+                var lamps = Load();
 
-            var index = lamps.FindIndex(l => l.Id == lamp.Id);
-            if (index == -1)
-                throw new Exception("Lamp not found");
+                var index = lamps.FindIndex(l => l.Id == lamp.Id);
+                if (index == -1)
+                    return Result.Failure(Error.NotFound("[LAMP REPOSITORY]", "Lamp not found"));
 
-            lamps[index] = lamp;
-            Save(lamps);
+                lamps[index] = lamp;
+                Save(lamps);
+
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure(Error.NotFound("[LAMP REPOSITORY]", ex.Message));
+            }
         }
 
-        public void Remove(Guid id)
+        public Result Remove(Guid id)
         {
-            var lamps = Load();
-            var lamp = lamps.First(l => l.Id == id);
-            lamps.Remove(lamp);
-            Save(lamps);
+            try
+            {
+                var lamps = Load();
+
+                var lamp = lamps.FirstOrDefault(l => l.Id == id);
+
+                if (lamp is null)
+                    return Result.Failure(Error.NotFound("[LAMP REPOSITORY]", "Lamp not found"));
+
+                lamps.Remove(lamp);
+                Save(lamps);
+
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure(Error.NotFound("[LAMP REPOSITORY]", ex.Message));
+            }
         }
+
+        // ---------------- PRIVATE ----------------
 
         private List<Lamp> Load()
         {
             var json = File.ReadAllText(_filePath);
 
-            var dtos = JsonSerializer.Deserialize<List<LampDto>>(json) ?? new List<LampDto>();
+            var dtos = JsonSerializer.Deserialize<List<LampDto>>(json)
+                       ?? new List<LampDto>();
 
             return dtos.Select(LampMapper.ToDomain).ToList();
         }

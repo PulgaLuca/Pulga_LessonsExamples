@@ -8,17 +8,5 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Events
 {
-    public sealed class BrightnessChangedEvent : DomainEvent
-    {
-        public Guid LampId { get; }
-        public Brightness OldValue { get; }
-        public Brightness NewValue { get; }
-
-        public BrightnessChangedEvent(Guid lampId, Brightness oldValue, Brightness newValue)
-        {
-            LampId = lampId;
-            OldValue = oldValue;
-            NewValue = newValue;
-        }
-    }
+    public sealed class BrightnessChangedEvent(Guid LampId, Brightness OldValue, Brightness NewValue) : DomainEvent;
 }

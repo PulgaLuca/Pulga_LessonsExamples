@@ -1,123 +1,123 @@
-﻿using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Dto;
-using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Mappers;
-using BlaisePascal.LessonsExamples.Domain.Devices.Lightning;
-using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Dto;
+//using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Mappers;
+//using BlaisePascal.LessonsExamples.Domain.Devices.Lightning;
+//using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories;
+//using System;
+//using System.Collections.Generic;
+//using System.Globalization;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
 
-namespace BlaisePascal.LessonsExamples.Infrastructure.Repositories.Devices.Lightning.Lamps
-{
-    public class TxtLampRepository : ILampRepository
-    {
-        private readonly string _filePath;
+//namespace BlaisePascal.LessonsExamples.Infrastructure.Repositories.Devices.Lightning.Lamps
+//{
+//    public class TxtLampRepository : ILampRepository
+//    {
+//        private readonly string _filePath;
 
-        public TxtLampRepository()
-        {
-            var solutionRoot = LocalPathHelper.GetSolutionRoot();
+//        public TxtLampRepository()
+//        {
+//            var solutionRoot = LocalPathHelper.GetSolutionRoot();
 
-            var dataFolder = Path.Combine(solutionRoot, "data");
-            Directory.CreateDirectory(dataFolder);
+//            var dataFolder = Path.Combine(solutionRoot, "data");
+//            Directory.CreateDirectory(dataFolder);
 
-            _filePath = Path.Combine(dataFolder, "lamps.txt");
+//            _filePath = Path.Combine(dataFolder, "lamps.txt");
 
-            if (!File.Exists(_filePath))
-            {
-                Save(new List<Lamp>());
-            }
-        }
+//            if (!File.Exists(_filePath))
+//            {
+//                Save(new List<Lamp>());
+//            }
+//        }
 
-        public List<Lamp> GetAll()
-        {
-            return Load();
-        }
+//        public List<Lamp> GetAll()
+//        {
+//            return Load();
+//        }
 
-        public Lamp GetById(Guid id)
-        {
-            return Load().First(l => l.Id == id);
-        }
+//        public Lamp GetById(Guid id)
+//        {
+//            return Load().First(l => l.Id == id);
+//        }
 
-        public void Add(Lamp lamp)
-        {
-            var lamps = Load();
-            lamps.Add(lamp);
-            Save(lamps);
-        }
+//        public void Add(Lamp lamp)
+//        {
+//            var lamps = Load();
+//            lamps.Add(lamp);
+//            Save(lamps);
+//        }
 
-        public void Update(Lamp lamp)
-        {
-            var lamps = Load();
+//        public void Update(Lamp lamp)
+//        {
+//            var lamps = Load();
 
-            var index = lamps.FindIndex(l => l.Id == lamp.Id);
-            if (index == -1)
-                throw new Exception("Lamp not found");
+//            var index = lamps.FindIndex(l => l.Id == lamp.Id);
+//            if (index == -1)
+//                throw new Exception("Lamp not found");
 
-            lamps[index] = lamp;
-            Save(lamps);
-        }
+//            lamps[index] = lamp;
+//            Save(lamps);
+//        }
 
-        public void Remove(Guid id)
-        {
-            var lamps = Load();
-            var lamp = lamps.First(l => l.Id == id);
-            lamps.Remove(lamp);
-            Save(lamps);
-        }
-        private List<Lamp> Load()
-        {
-            var lines = File.ReadAllLines(_filePath);
+//        public void Remove(Guid id)
+//        {
+//            var lamps = Load();
+//            var lamp = lamps.First(l => l.Id == id);
+//            lamps.Remove(lamp);
+//            Save(lamps);
+//        }
+//        private List<Lamp> Load()
+//        {
+//            var lines = File.ReadAllLines(_filePath);
 
-            if (lines.Length <= 1)
-                return new List<Lamp>();
+//            if (lines.Length <= 1)
+//                return new List<Lamp>();
 
-            var lamps = new List<Lamp>();
+//            var lamps = new List<Lamp>();
 
-            foreach (var line in lines.Skip(1)) // skip header
-            {
-                var values = line.Split('|');
+//            foreach (var line in lines.Skip(1)) // skip header
+//            {
+//                var values = line.Split('|');
 
-                var dto = new LampDto
-                {
-                    Id = Guid.Parse(values[0]),
-                    Name = values[1],
-                    ImageUrl = values[2],
-                    Status = values[3],
-                    Brightness = int.Parse(values[4]),
-                    CreatedAtUtc = DateTime.Parse(values[5], null, DateTimeStyles.RoundtripKind),
-                    LastModifiedAtUtc = DateTime.Parse(values[6], null, DateTimeStyles.RoundtripKind)
-                };
+//                var dto = new LampDto
+//                {
+//                    Id = Guid.Parse(values[0]),
+//                    Name = values[1],
+//                    ImageUrl = values[2],
+//                    Status = values[3],
+//                    Brightness = int.Parse(values[4]),
+//                    CreatedAtUtc = DateTime.Parse(values[5], null, DateTimeStyles.RoundtripKind),
+//                    LastModifiedAtUtc = DateTime.Parse(values[6], null, DateTimeStyles.RoundtripKind)
+//                };
 
-                lamps.Add(LampMapper.ToDomain(dto));
-            }
+//                lamps.Add(LampMapper.ToDomain(dto));
+//            }
 
-            return lamps;
-        }
+//            return lamps;
+//        }
 
-        private void Save(List<Lamp> lamps)
-        {
-            var dtos = lamps.Select(LampMapper.ToDto).ToList();
+//        private void Save(List<Lamp> lamps)
+//        {
+//            var dtos = lamps.Select(LampMapper.ToDto).ToList();
 
-            var lines = new List<string>
-            {
-                "Id|Name|ImageUrl|Status|Brightness|CreatedAtUtc|LastModifiedAtUtc"
-            };
+//            var lines = new List<string>
+//            {
+//                "Id|Name|ImageUrl|Status|Brightness|CreatedAtUtc|LastModifiedAtUtc"
+//            };
 
-            foreach (var dto in dtos)
-            {
-                lines.Add(string.Join("|",
-                    dto.Id,
-                    dto.Name ?? "",
-                    dto.ImageUrl ?? "",
-                    dto.Status,
-                    dto.Brightness,
-                    dto.CreatedAtUtc.ToString("O"),
-                    dto.LastModifiedAtUtc.ToString("O")
-                ));
-            }
-            File.WriteAllLines(_filePath, lines);
-        }
-    }
-}
+//            foreach (var dto in dtos)
+//            {
+//                lines.Add(string.Join("|",
+//                    dto.Id,
+//                    dto.Name ?? "",
+//                    dto.ImageUrl ?? "",
+//                    dto.Status,
+//                    dto.Brightness,
+//                    dto.CreatedAtUtc.ToString("O"),
+//                    dto.LastModifiedAtUtc.ToString("O")
+//                ));
+//            }
+//            File.WriteAllLines(_filePath, lines);
+//        }
+//    }
+//}

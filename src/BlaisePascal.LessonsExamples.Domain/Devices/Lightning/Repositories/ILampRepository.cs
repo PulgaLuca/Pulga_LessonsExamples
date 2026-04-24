@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BlaisePascal.LessonsExamples.SharedKernel;
 
 namespace BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories
 {
     public interface ILampRepository
     {
-        void Add(Lamp lamp);
-        void Update(Lamp lamp);
-        void Remove(Guid id);
-        Lamp GetById(Guid id);
-        List<Lamp> GetAll();
+        Result Add(Lamp lamp);
+        Result Update(Lamp lamp);
+        Result Remove(Guid id);
+
+        Result<Lamp> GetById(Guid id);
+        Result<List<Lamp>> GetAll();
     }
 }

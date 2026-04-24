@@ -9,14 +9,12 @@
             if (obj is not ValueObject other)
                 return false;
 
-            return GetAtomicValues()
-                .SequenceEqual(other.GetAtomicValues());
+            return GetAtomicValues().SequenceEqual(other.GetAtomicValues());
         }
 
         public override int GetHashCode()
         {
-            return GetAtomicValues()
-                .Aggregate(0, (hash, obj) => HashCode.Combine(hash, obj));
+            return GetAtomicValues().Aggregate(0, (hash, obj) => HashCode.Combine(hash, obj));
         }
     }
 }

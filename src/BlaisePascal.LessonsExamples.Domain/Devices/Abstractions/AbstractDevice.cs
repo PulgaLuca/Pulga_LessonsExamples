@@ -3,16 +3,17 @@ using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.Events;
 using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.Interfaces;
 using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.VO;
 using BlaisePascal.LessonsExamples.SharedKernel;
+using BlaisePascal.SmartHouse.Domain.Devices.LuminousDevices.Errors;
 
 namespace BlaisePascal.LessonsExamples.Domain.Devices.Abstractions
 {
     public abstract class AbstractDevice : Entity, IDevice
     {
-        public DeviceName Name { get; set; }
-        public DeviceImage ImageUrl { get; set; }
-        public DeviceStatus Status { get; set; }
-        public DateTime CreatedAtUtc { get; set; }
-        public DateTime LastModifiedAtUtc { get; set; }
+        public DeviceName Name { get; protected set; }
+        public DeviceImage ImageUrl { get; protected set; }
+        public DeviceStatus Status { get; protected set; }
+        public DateTime CreatedAtUtc { get; protected set; }
+        public DateTime LastModifiedAtUtc { get; protected set; }
 
         protected AbstractDevice(DeviceName name, DeviceImage imageUrl)
         {
@@ -25,46 +26,69 @@ namespace BlaisePascal.LessonsExamples.Domain.Devices.Abstractions
             Touch();
         }
 
-        public virtual void SwitchOn()
+        public virtual Result SwitchOn()
         {
+            if (Status == DeviceStatus.On)
+                return Result.Failure(LampErrors.AlreadyOn);
+
             Status = DeviceStatus.On;
+
             Raise(new DeviceSwitchedOnEvent(Id));
             Touch();
+
+            return Result.Success();
         }
 
-        public virtual void SwitchOff()
+        public virtual Result SwitchOff()
         {
-            EnsureDeviceIsOff();
+            if (Status == DeviceStatus.Off)
+                return Result.Failure(LampErrors.AlreadyOff);
+
             Status = DeviceStatus.Off;
+
             Raise(new DeviceSwitchedOffEvent(Id));
             Touch();
+
+            return Result.Success();
         }
 
-        public void Rename(DeviceName name)
+        public Result Rename(DeviceName name)
         {
+            if (name == Name)
+                return Result.Success();
+
             Name = name;
             Touch();
+
+            return Result.Success();
         }
 
-        public void ChangeImage(DeviceImage image)
+        public Result ChangeImage(DeviceImage image)
         {
+            if (image == ImageUrl)
+                return Result.Success();
+
             ImageUrl = image;
             Touch();
+
+            return Result.Success();
         }
 
-        public void EnsureDeviceIsOn()
+        protected Result EnsureDeviceIsOn()
         {
-            if (Status != DeviceStatus.On)
-                throw new DomainException("Device must be on.");
+            return Status == DeviceStatus.On
+                ? Result.Success()
+                : Result.Failure(LampErrors.AlreadyOn);
         }
 
-        public void EnsureDeviceIsOff()
+        protected Result EnsureDeviceIsOff()
         {
-            if (Status != DeviceStatus.Off)
-                throw new DomainException("Device is already off.");
+            return Status == DeviceStatus.Off
+                ? Result.Success()
+                : Result.Failure(LampErrors.AlreadyOff);
         }
 
-        public void Touch()
+        protected void Touch()
         {
             LastModifiedAtUtc = DateTime.UtcNow;
         }

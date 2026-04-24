@@ -1,8 +1,10 @@
-﻿namespace BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.Interfaces
+﻿using BlaisePascal.LessonsExamples.SharedKernel;
+
+namespace BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.Interfaces
 {
     public interface ISwitchable
     {
-        void SwitchOn();
-        void SwitchOff();
+        Result SwitchOn();
+        Result SwitchOff();
     }
 }

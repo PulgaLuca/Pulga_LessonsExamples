@@ -1,5 +1,6 @@
 ﻿using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.Interfaces;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.ValueObjects;
+using BlaisePascal.LessonsExamples.SharedKernel;
 
 namespace BlaisePascal.LessonsExamples.Domain.Devices.Lightning
 {
@@ -9,12 +10,12 @@ namespace BlaisePascal.LessonsExamples.Domain.Devices.Lightning
 
         Brightness DefaultBrightness { get; }
 
-        void ChangeBrightnessTo(int newBrightness);
+        Result ChangeBrightnessTo(int newBrightness);
 
-        void Dimmer();
-        void Dimmer(int amount);
+        Result Dimmer();
+        Result Dimmer(int amount);
 
-        void Brighten();
-        void Brighten(int amount);
+        Result Brighten();
+        Result Brighten(int amount);
     }
 }
