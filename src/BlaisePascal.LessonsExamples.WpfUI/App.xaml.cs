@@ -1,5 +1,4 @@
 ﻿using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Commands.AddLamp;
-using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Queries.GetAll;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories;
 using BlaisePascal.LessonsExamples.Infrastructure.Repositories.Devices.Lightning.Lamps.Json.Devices.Lightning;
 using BlaisePascal.LessonsExamples.WpfUI.Views;

@@ -31,6 +31,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{68F1F476-0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.LessonsExamples.Infrastructure", "src\BlaisePascal.LessonsExamples.Infrastructure\BlaisePascal.LessonsExamples.Infrastructure.csproj", "{A25EABA3-79A4-4F04-A951-EE1CDCDD681B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.LessonExamples.WebApi", "src\BlaisePascal.LessonExamples.WebApi\BlaisePascal.LessonExamples.WebApi.csproj", "{A9F655EC-73E6-4613-88A7-6508052AD5CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{A25EABA3-79A4-4F04-A951-EE1CDCDD681B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A25EABA3-79A4-4F04-A951-EE1CDCDD681B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A25EABA3-79A4-4F04-A951-EE1CDCDD681B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9F655EC-73E6-4613-88A7-6508052AD5CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9F655EC-73E6-4613-88A7-6508052AD5CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9F655EC-73E6-4613-88A7-6508052AD5CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9F655EC-73E6-4613-88A7-6508052AD5CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +83,7 @@ Global
 		{FB4F3B62-320D-403A-A520-2F0DCF11F006} = {6C83A596-D32D-B35F-00DD-F0C99B673980}
 		{8ED8779A-1BEA-49B7-9ACF-70F20A585CE6} = {6C83A596-D32D-B35F-00DD-F0C99B673980}
 		{A25EABA3-79A4-4F04-A951-EE1CDCDD681B} = {6C83A596-D32D-B35F-00DD-F0C99B673980}
+		{A9F655EC-73E6-4613-88A7-6508052AD5CD} = {6C83A596-D32D-B35F-00DD-F0C99B673980}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4BBC00A4-C301-4818-B454-BF321C561DA2}

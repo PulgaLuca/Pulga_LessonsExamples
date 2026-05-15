@@ -1,27 +1,18 @@
 ﻿using BlaisePascal.LessonsExamples.Domain.Devices.Abstractions.VO;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning;
-using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Events;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories;
 using BlaisePascal.LessonsExamples.SharedKernel;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Commands.AddLamp
 {
     public sealed class AddLampCommandHandler : IRequestHandler<AddLampCommand, Result<Guid>>
     {
-        private readonly ILampRepository _repository;
-        private readonly IMediator _mediator;
-        private readonly ILogger<AddLampCommandHandler> _logger;
+        private readonly ILampRepository _repository;   
 
-        public AddLampCommandHandler(
-            ILampRepository repository,
-            IMediator mediator,
-            ILogger<AddLampCommandHandler> logger)
+        public AddLampCommandHandler(ILampRepository repository)
         {
             _repository = repository;
-            _mediator = mediator;
-            _logger = logger;
         }
 
         // MediatR richiede che il metodo Handle restituisca un Task<T>.
@@ -31,9 +22,7 @@ namespace BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Comma
         // Mentre, il CancellationToken permette di interrompere l'operazione,
         // ovvero, se la richiesta HTTP viene annullata o scade il timeout.
         // È molto utile nelle operazioni lunghe o asincrone.
-        public Task<Result<Guid>> Handle(
-            AddLampCommand request,
-            CancellationToken cancellationToken)
+        public Task<Result<Guid>> Handle(AddLampCommand request, CancellationToken cancellationToken)
         {
             var nameResult = new DeviceName(request.Name);
             var imageResult = new DeviceImage(request.ImageUrl);
@@ -49,9 +38,6 @@ namespace BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Comma
             if (result.IsFailure)
                 return Task.FromResult(Result.Failure<Guid>(result.Error));
 
-            // Restituiamo un Task già completato con il Guid della lampada creata.
-            // Anche qui usiamo Task.FromResult per adattarci alla firma asincrona
-            // senza usare async/await inutilmente.
             return Task.FromResult(Result.Success(lamp.Id));
         }
     }

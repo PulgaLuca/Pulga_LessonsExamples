@@ -7,7 +7,6 @@ namespace BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories
         Result Add(Lamp lamp);
         Result Update(Lamp lamp);
         Result Remove(Guid id);
-
         Result<Lamp> GetById(Guid id);
         Result<List<Lamp>> GetAll();
     }

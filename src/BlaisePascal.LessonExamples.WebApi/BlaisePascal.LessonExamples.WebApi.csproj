@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="14.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.14.14" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlaisePascal.LessonsExamples.Application\BlaisePascal.LessonsExamples.Application.csproj" />
+    <ProjectReference Include="..\BlaisePascal.LessonsExamples.Domain\BlaisePascal.LessonsExamples.Domain.csproj" />
+    <ProjectReference Include="..\BlaisePascal.LessonsExamples.Infrastructure\BlaisePascal.LessonsExamples.Infrastructure.csproj" />
+    <ProjectReference Include="..\BlaisePascal.LessonsExamples.SharedKernel\BlaisePascal.LessonsExamples.SharedKernel.csproj" />
+  </ItemGroup>
+
+</Project>

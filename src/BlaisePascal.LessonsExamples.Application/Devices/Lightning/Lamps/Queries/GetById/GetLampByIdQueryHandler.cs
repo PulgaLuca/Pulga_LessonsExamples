@@ -1,36 +1,25 @@
-﻿using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Dto;
+﻿// Application/Devices/Lightning/Lamps/Queries/GetLampById/GetLampByIdQueryHandler.cs
+using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Dto;
 using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Mappers;
 using BlaisePascal.LessonsExamples.Domain.Devices.Lightning.Repositories;
 using BlaisePascal.LessonsExamples.SharedKernel;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
-namespace BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Queries.GetById
+namespace BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Queries.GetLampById;
+
+public sealed class GetLampByIdQueryHandler : IRequestHandler<GetLampByIdQuery, Result<LampDto>>
 {
-    public sealed class GetLampByIdQueryHandler : IRequestHandler<GetLampByIdQuery, Result<LampDto>>
+    private readonly ILampRepository _repository;
+
+    public GetLampByIdQueryHandler(ILampRepository repository) => _repository = repository;
+
+    public Task<Result<LampDto>> Handle(GetLampByIdQuery request, CancellationToken cancellationToken)
     {
-        private readonly ILampRepository _repository;
-        private readonly ILogger<GetLampByIdQueryHandler> _logger;
+        var result = _repository.GetById(request.Id);
 
-        public GetLampByIdQueryHandler(ILampRepository repository, ILogger<GetLampByIdQueryHandler> logger)
-        {
-            _repository = repository;
-            _logger = logger;
-        }
+        if (result.IsFailure)
+            return Task.FromResult(Result.Failure<LampDto>(result.Error));
 
-        public Task<Result<LampDto>> Handle(GetLampByIdQuery request, CancellationToken cancellationToken)
-        {
-            var result = _repository.GetById(request.Id);
-
-            if (result.IsFailure)
-            {
-                _logger.LogWarning("Lamp not found: {LampId}", request.Id);
-                return Task.FromResult(Result.Failure<LampDto>(result.Error));
-            }
-
-            var dto = LampMapper.ToDto(result.Value);
-
-            return Task.FromResult(Result.Success(dto));
-        }
+        return Task.FromResult(Result.Success(LampMapper.ToDto(result.Value)));
     }
 }
