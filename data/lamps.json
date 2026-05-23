@@ -9,21 +9,21 @@
     "LastModifiedAtUtc": "2026-03-13T10:38:35.5146291Z"
   },
   {
-    "Id": "0ff827b6-ff7c-4d92-beb8-c2bbba421f0a",
+    "Id": "025c1817-72fd-4736-8927-5661e2a183d2",
     "Name": "Prova",
     "ImageUrl": "",
-    "Status": "ON",
-    "Brightness": 78,
-    "CreatedAtUtc": "2026-04-15T08:46:11.5549453Z",
-    "LastModifiedAtUtc": "2026-04-15T08:48:14.0438806Z"
-  },
-  {
-    "Id": "13f83180-0b96-497c-809b-c9092f09e0aa",
-    "Name": "webapi",
-    "ImageUrl": "webapi",
     "Status": "OFF",
     "Brightness": 0,
-    "CreatedAtUtc": "2026-05-15T14:33:22.7483487Z",
-    "LastModifiedAtUtc": "2026-05-15T14:33:22.7483497Z"
+    "CreatedAtUtc": "2026-05-22T07:44:55.8932449Z",
+    "LastModifiedAtUtc": "2026-05-22T07:44:55.8932456Z"
+  },
+  {
+    "Id": "b68c3561-f239-41ed-b5b8-161408687a3f",
+    "Name": "string",
+    "ImageUrl": "string",
+    "Status": "OFF",
+    "Brightness": 0,
+    "CreatedAtUtc": "2026-05-23T13:22:04.4876118Z",
+    "LastModifiedAtUtc": "2026-05-23T13:22:04.4876127Z"
   }
 ]

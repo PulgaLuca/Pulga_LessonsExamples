@@ -8,11 +8,11 @@ using System.Windows;
 
 namespace BlaisePascal.LessonsExamples.WpfUI
 {
-    // questa è l'applicazione principale WPF
-    // System.Windows.Application è la "base" di tutte le app desktop WPF
+    // Applicazione principale WPF
+    // System.Windows.Application è la base/bootstrap di tutte le app desktop WPF
     public partial class App : System.Windows.Application
     {
-        // questo è il "contenitore dei servizi", serve per creare e collegare automaticamente le classi tra loro
+        // contenitore dei servizi, serve per creare e collegare automaticamente le classi tra loro
         public static IServiceProvider Services { get; private set; }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -27,22 +27,21 @@ namespace BlaisePascal.LessonsExamples.WpfUI
             // serve per stampare errori o informazioni a runtime (ovvero mentre il programma gira)
             services.AddLogging(cfg =>
             {
-                cfg.AddDebug(); // manda i log alla finestra "Output" (in basso) di Visual Studio
+                cfg.AddDebug(); // manda i log alla finestra "Output" di Visual Studio
             });
 
-            // INFRASTRUTTURA - persistenza
+            // INFRASTRUTTURA, per la parte di persistenza
             // Quando qualcuno chiede ILampRepository, inietta JsonLampRepository
             services.AddSingleton<ILampRepository, JsonLampRepository>();
 
-            // APPLICATION LAYER (CASI D'USO)
-            // MediatR è un "messaggero"
-            // prende richieste (Command/Query) e le manda al giusto handler
+            // APPLICATION LAYER
+            // MediatR prende richieste (Command/Query) e le dispatcha al giusto handler
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(typeof(AddLampCommand).Assembly);
             });
 
-            // PRESENTATION LAYER (VIEWS)
+            // PRESENTATION LAYER
             // Registriamo le finestre e le viste WPF
             services.AddSingleton<LampView>();
             services.AddSingleton<MainWindow>();

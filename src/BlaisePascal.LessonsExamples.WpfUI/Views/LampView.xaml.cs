@@ -1,5 +1,4 @@
-﻿using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Commands;
-using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Commands.AddLamp;
+﻿using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Commands.AddLamp;
 using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Dto;
 using BlaisePascal.LessonsExamples.Application.Devices.Lightning.Lamps.Queries.GetAll;
 using MediatR;
@@ -29,6 +28,7 @@ namespace BlaisePascal.LessonsExamples.WpfUI.Views
 
         private async void Refresh()
         {
+            // aspettiamo l'aggiornamento della GUI
             var result = await _mediator.Send(new GetAllLampsQuery());
 
             if (result.IsFailure)
@@ -52,9 +52,7 @@ namespace BlaisePascal.LessonsExamples.WpfUI.Views
                     return;
                 }
 
-                var command = new AddLampCommand(name, "");
-
-                var result = await _mediator.Send(command);
+                var result = await _mediator.Send(new AddLampCommand(name, ""));
 
                 if (result.IsFailure)
                 {

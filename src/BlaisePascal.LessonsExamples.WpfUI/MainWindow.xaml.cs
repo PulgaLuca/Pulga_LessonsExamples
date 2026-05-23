@@ -5,6 +5,12 @@ namespace BlaisePascal.LessonsExamples.WpfUI
 {
     public partial class MainWindow : Window
     {
+        // IServiceProvider è il contenitore dei servizi (Dependency Injection Container).
+        // Serve per recuperare automaticamente oggetti già registrati
+        // come ??
+        //
+        // Dunque, aizichè creare manualmente gli oggetti con "new <costruttore",
+        // lasciamo che il container li costruisca per noi.
         private readonly IServiceProvider _services;
 
         public MainWindow(IServiceProvider services)
@@ -16,6 +22,10 @@ namespace BlaisePascal.LessonsExamples.WpfUI
 
         private void LoadDefaultView()
         {
+            // GetRequiredService<T>()
+            // chiede al container DI di creare e/o recuperare un'istanza di LampView.
+            //
+            // Vantaggio principale è la gestione automatica delle dipendenze, oltre alla pulizia del codice e migliore testabilità
             MainContentArea.Content = _services.GetRequiredService<Views.LampView>();
         }
 
